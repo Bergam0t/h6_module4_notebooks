@@ -3,7 +3,7 @@ project:
   output-dir: docs
 book:
   title: HSMA - Machine Learning Notebooks
-  author: Dan Chalk & Sammi Rosser
+  author: Dan Chalk & Sammi Rosser (with thanks to Mike Allen and the SAMueL team)
   date: 31/07/2024
   chapters:
   - index.qmd
