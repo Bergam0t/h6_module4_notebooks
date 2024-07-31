@@ -1,0 +1,2940 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.552">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>HSMA - Machine Learning Notebooks - 11&nbsp; Neural Networks with Tensorflow/Keras (Titanic Dataset)</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script><script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<link href="./4f_ex_1_solution.html" rel="next">
+<link href="./4e_regression_tree_exercise_SOLUTION.html" rel="prev">
+<link href="./resources/logos/hsma_logo_transparent_background_large.png" rel="icon" type="image/png">
+<script src="site_libs/quarto-html/quarto.js"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+
+<link rel="stylesheet" href="include/webex.css">
+</head>
+
+<body class="nav-sidebar docked nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">HSMA - Machine Learning Notebooks</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/hsma-programme/"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4f_HSMA_neural_nets.html">4F - Neural Networks</a></li><li class="breadcrumb-item"><a href="./4f_HSMA_neural_nets.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural Networks with Tensorflow/Keras (Titanic Dataset)</span></a></li></ol></nav>
+        <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="./index.html" class="sidebar-logo-link">
+      <img src="./resources/logos/hsma_logo_transparent_background_large.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Preface</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true">
+ <span class="menu-text">4B - Logistic Regression</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4b_log_reg_tutorial_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">An Introduction to Classification with Machine Learning</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4b_log_reg_tutorial_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">A logistic regression model for predicting survival on the titanic</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4b_ex_1_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Stroke Thromobolysis Dataset: Logistic Regression Exercise (Solution)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true">
+ <span class="menu-text">4D/4E - Tree-based models for classification</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4d_decision_tree_titanic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Decision Trees for Classification (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4d_decision_tree_stroke_exercise_SOLUTION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Exercise Solution: Decision Trees (Stroke Thromobolysis Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4d_random_forest_titanic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Random Forests for Classification (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4d_random_forest_stroke_exercise_SOLUTION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exercise Solution: Random Forests (Stroke Thromobolysis Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4e_boosting_titanic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Boosted Trees for Classification: XGBoost, Catboost, AdaBoost, LightGBM, HistogramGradientBoosting (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true">
+ <span class="menu-text">4E - Tree-based models for regression</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4e_tree_based_models_regression.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Tree-Based Models for Regression - Predicting a Numeric Indicator of Diabetes Disease Progression</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4e_regression_tree_exercise_SOLUTION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercise Solution: Regression with Trees (LOS Dataset)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true">
+ <span class="menu-text">4F - Neural Networks</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4f_HSMA_neural_nets.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural Networks with Tensorflow/Keras (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4f_ex_1_solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercise Solution: Neural Networks (Stroke Thromobolysis Dataset)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true">
+ <span class="menu-text">4G - Explainable AI</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_logistic_regression_titanic_feature_importance_prediction_uncertainty.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Feature Importance and Prediction Uncertainty with Logistic Regression Models (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_pdp_ice_feature_importance_shap_table_tree_classification_titanic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Explaining model predictions with PDPs, ICE plots, MDI, PFI and SHAP</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_shap_plots_tree_classification_example_titanic.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">SHAP with XGBoost (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_shap_plots_tree_regression_example_diabetes.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">SHAP with regression trees (Diabetes Progression Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_shap_neural_nets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">SHAP and PFI with Neural Networks (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_1_xai_classification_exercise_SOLUTION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Exercise Solution: Explainable AI (Penguins Classification Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_2a_classification_boosting_exercise_SOLUTION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Exercise Solution: Explainable AI (Stroke Thromobolysis Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4g_2b_regression_tree_exercise_shap_SOLUTION.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">Exercise Solution: Explainable AI (LOS Dataset)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true">
+ <span class="menu-text">4I - Synthetic Data</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4i_synthetic_data_SMOTE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">Creating synthetic Titanic passenger data with SMOTE</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4i_Exercise_1_Solution.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">Exercise Solution: Synthetic Data (Stroke Thromobolysis Dataset)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true">
+ <span class="menu-text">4J - Model Optimisation</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-7" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-7" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_auto_ml.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">Automated Machine Learning (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_data_preprocessing_and_eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Data Preprocessing and Exploratory Data Analysis (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_ensembles_voting.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">25</span>&nbsp; <span class="chapter-title">Ensembles (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_feature_engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">26</span>&nbsp; <span class="chapter-title">Feature Engineering (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_feature_selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">27</span>&nbsp; <span class="chapter-title">Feature Selection Methods for Machine Learning (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_hyperparameter_optimisation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">28</span>&nbsp; <span class="chapter-title">Hyperparameter Optimisation (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_imbalanced_data.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">29</span>&nbsp; <span class="chapter-title">Imbalanced Data (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_k_fold_validation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">30</span>&nbsp; <span class="chapter-title">K-fold validation (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_missing_data_imputation.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">31</span>&nbsp; <span class="chapter-title">Imputation (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_model_calibration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">32</span>&nbsp; <span class="chapter-title">Checking Model Calibration (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./4j_pipelines.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">33</span>&nbsp; <span class="chapter-title">Pipelines (Titanic Dataset)</span></span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#the-neural-network-unit---a-neuron-or-perceptron" id="toc-the-neural-network-unit---a-neuron-or-perceptron" class="nav-link active" data-scroll-target="#the-neural-network-unit---a-neuron-or-perceptron"><span class="header-section-number">11.1</span> The neural network unit - a neuron or perceptron</a></li>
+  <li><a href="#neural-networks" id="toc-neural-networks" class="nav-link" data-scroll-target="#neural-networks"><span class="header-section-number">11.2</span> Neural networks</a></li>
+  <li><a href="#activation-functions" id="toc-activation-functions" class="nav-link" data-scroll-target="#activation-functions"><span class="header-section-number">11.3</span> Activation functions</a></li>
+  <li><a href="#loss-functions" id="toc-loss-functions" class="nav-link" data-scroll-target="#loss-functions"><span class="header-section-number">11.4</span> Loss functions</a></li>
+  <li><a href="#how-do-neural-networks-learn-backpropagation-and-optimisation" id="toc-how-do-neural-networks-learn-backpropagation-and-optimisation" class="nav-link" data-scroll-target="#how-do-neural-networks-learn-backpropagation-and-optimisation"><span class="header-section-number">11.5</span> How do neural networks learn? Backpropagation and optimisation</a></li>
+  <li><a href="#training-a-neural-network---the-practicalities" id="toc-training-a-neural-network---the-practicalities" class="nav-link" data-scroll-target="#training-a-neural-network---the-practicalities"><span class="header-section-number">11.6</span> Training a neural network - the practicalities</a></li>
+  <li><a href="#architectures" id="toc-architectures" class="nav-link" data-scroll-target="#architectures"><span class="header-section-number">11.7</span> Architectures</a></li>
+  <li><a href="#additional-resources" id="toc-additional-resources" class="nav-link" data-scroll-target="#additional-resources"><span class="header-section-number">11.8</span> Additional resources</a></li>
+  <li><a href="#lets-go" id="toc-lets-go" class="nav-link" data-scroll-target="#lets-go"><span class="header-section-number">11.9</span> Let’s go !!!!!!!!!!!!!</a></li>
+  <li><a href="#load-modules" id="toc-load-modules" class="nav-link" data-scroll-target="#load-modules"><span class="header-section-number">11.10</span> Load modules</a></li>
+  <li><a href="#download-data-if-not-previously-downloaded" id="toc-download-data-if-not-previously-downloaded" class="nav-link" data-scroll-target="#download-data-if-not-previously-downloaded"><span class="header-section-number">11.11</span> Download data if not previously downloaded</a></li>
+  <li><a href="#define-function-to-scale-data" id="toc-define-function-to-scale-data" class="nav-link" data-scroll-target="#define-function-to-scale-data"><span class="header-section-number">11.12</span> Define function to scale data</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data"><span class="header-section-number">11.13</span> Load data</a></li>
+  <li><a href="#set-up-neural-net" id="toc-set-up-neural-net" class="nav-link" data-scroll-target="#set-up-neural-net"><span class="header-section-number">12</span> Set up neural net</a>
+  <ul class="collapse">
+  <li><a href="#show-summary-of-the-model-structure" id="toc-show-summary-of-the-model-structure" class="nav-link" data-scroll-target="#show-summary-of-the-model-structure"><span class="header-section-number">12.1</span> Show summary of the model structure</a></li>
+  <li><a href="#split-and-scale-data" id="toc-split-and-scale-data" class="nav-link" data-scroll-target="#split-and-scale-data"><span class="header-section-number">12.2</span> Split and Scale data</a></li>
+  <li><a href="#function-to-calculate-accuracy" id="toc-function-to-calculate-accuracy" class="nav-link" data-scroll-target="#function-to-calculate-accuracy"><span class="header-section-number">12.3</span> Function to calculate accuracy</a></li>
+  <li><a href="#run-the-model" id="toc-run-the-model" class="nav-link" data-scroll-target="#run-the-model"><span class="header-section-number">12.4</span> Run the model</a>
+  <ul class="collapse">
+  <li><a href="#get-training-history" id="toc-get-training-history" class="nav-link" data-scroll-target="#get-training-history"><span class="header-section-number">12.4.1</span> Get training history</a></li>
+  <li><a href="#plot-training-history" id="toc-plot-training-history" class="nav-link" data-scroll-target="#plot-training-history"><span class="header-section-number">12.4.2</span> Plot training history</a></li>
+  </ul></li>
+  <li><a href="#improving-fit-by-avoiding-or-reducing-over-fitting" id="toc-improving-fit-by-avoiding-or-reducing-over-fitting" class="nav-link" data-scroll-target="#improving-fit-by-avoiding-or-reducing-over-fitting"><span class="header-section-number">12.5</span> Improving fit by avoiding or reducing-over fitting</a>
+  <ul class="collapse">
+  <li><a href="#reduce-complexity-of-model" id="toc-reduce-complexity-of-model" class="nav-link" data-scroll-target="#reduce-complexity-of-model"><span class="header-section-number">12.5.1</span> 1) Reduce complexity of model</a></li>
+  <li><a href="#reduce-training-time" id="toc-reduce-training-time" class="nav-link" data-scroll-target="#reduce-training-time"><span class="header-section-number">12.5.2</span> 2) Reduce training time</a></li>
+  <li><a href="#add-dropout" id="toc-add-dropout" class="nav-link" data-scroll-target="#add-dropout"><span class="header-section-number">12.5.3</span> 3) Add dropout</a></li>
+  <li><a href="#combination-of-the-above-and-with-automatic-early-stopping" id="toc-combination-of-the-above-and-with-automatic-early-stopping" class="nav-link" data-scroll-target="#combination-of-the-above-and-with-automatic-early-stopping"><span class="header-section-number">12.5.4</span> 4) Combination of the above and with automatic early stopping</a></li>
+  </ul></li>
+  <li><a href="#saving-and-reloading-the-model" id="toc-saving-and-reloading-the-model" class="nav-link" data-scroll-target="#saving-and-reloading-the-model"><span class="header-section-number">12.6</span> Saving and reloading the model</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./4f_HSMA_neural_nets.html">4F - Neural Networks</a></li><li class="breadcrumb-item"><a href="./4f_HSMA_neural_nets.html"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural Networks with Tensorflow/Keras (Titanic Dataset)</span></a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Neural Networks with Tensorflow/Keras (Titanic Dataset)</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>TIP - this workbook contains extensive text to explain the code. To save you having to constantly scroll up and down to refer back, if you’re using VSCode you can right click on the notebook’s name tab at the top and click one of the split options (e.g.&nbsp;“Split Right”) to see have a second view of the same notebook that you can scroll independently.</p>
+<p>In this workbook we build a neural network to predict passenger survival on the Titanic, using the same dataset we used for the Logistic Regression example. The two common frameworks used for neural networks are TensorFlow and PyTorch. Both are excellent frameworks. TensorFlow frequently requires fewer lines of code, but PyTorch is more natively “Pythonic” in its syntax. Here we use TensorFlow and Keras which is integrated into TensorFlow and makes it simpler and faster to build TensorFlow models.</p>
+<p><strong>You should install and switch to the supplied tf_hsma environment for this exercise. This environment contains an installation of TensorFlow version 2.16.1 which you will need.</strong></p>
+<section id="the-neural-network-unit---a-neuron-or-perceptron" class="level2" data-number="11.1">
+<h2 data-number="11.1" class="anchored" data-anchor-id="the-neural-network-unit---a-neuron-or-perceptron"><span class="header-section-number">11.1</span> The neural network unit - a neuron or perceptron</h2>
+<p>The building block of a neural network is a neuron, which is essentially the same as the ‘perceptron’ described by Frank Rosenblatt in 1958.</p>
+<p>The neuron, or perceptron, takes inputs <em>X</em> and weights <em>W</em> (each individual input has a weight; a bias weight is also introduced by creating a dummy input with value 1). The neuron sums the <em>input</em> multiplied by the <em>weight</em> and passes the output to an activation function. The simplest activation function is a step function, whereby if the output is &gt;0 the output of the activation function is 1, otherwise the output is 0.</p>
+<p><img src="./images/perceptron.jpeg" class="img-fluid"></p>
+</section>
+<section id="neural-networks" class="level2" data-number="11.2">
+<h2 data-number="11.2" class="anchored" data-anchor-id="neural-networks"><span class="header-section-number">11.2</span> Neural networks</h2>
+<p>Having understood a neuron - which calculates the weighted sum of its inputs and passes it through an activation function, neural networks are easy(ish)!</p>
+<p>They are ‘just’ a network of such neurons, where the output of one becomes one of the inputs to the neurons in the next layer.</p>
+<p>This allows any complexity of function to be mimicked by a neural network (so long as the network includes a non-linear activation function, like ReLU - see below).</p>
+<p>Note the output layer may be composed of a single neuron, to predict a single value or single probability, or may be multiple neurons, to predict multiple values or multiple probabilities.</p>
+<p><img src="./images/net_1.png" class="img-fluid"></p>
+</section>
+<section id="activation-functions" class="level2" data-number="11.3">
+<h2 data-number="11.3" class="anchored" data-anchor-id="activation-functions"><span class="header-section-number">11.3</span> Activation functions</h2>
+<p>Each neuron calculates the weighted sum of its inputs and passes that sum to an activation function. The two simplest functions are:</p>
+<ul>
+<li><p><em>Linear</em>: The weighted output is passed forward with no change.</p></li>
+<li><p><em>Step</em>: The output of the activation function is 0 or 1 depending on whether a threshold is reached.</p></li>
+</ul>
+<p>Other common activation functions are:</p>
+<ul>
+<li><p><em>Sigmoid</em>: Scales output 0-1 using a logistic function. Note that our simple single perceptron becomes a logistic regression model if we use a sigmoid activation function. The sigmoid function is often used to produce a probability output at the final layer.</p></li>
+<li><p><em>tanh</em>: Scales output -1 to 1. Commonly used in older neural network models. Not commonly used now.</p></li>
+<li><p><em>ReLU (rectifying linear unit)</em>: Simply converts all negative values to zero, and leaves positive values unchanged. This very simple method is very common in deep neural networks, and is sufficient to allow networks to model non-linear functions.</p></li>
+<li><p><em>Leaky ReLU</em> and <em>Exponential Linear Unit (ELU)</em>: Common modifications to ReLU that do not have such a hard constraint on negative inputs, and can be useful if we run into the Dying ReLU problem (in which - typically due to high learning rates - our weights are commonly set to negative values, leading to them effectively being switched off (set to 0) under ReLU). Try them out as replacements to ReLU.</p></li>
+<li><p><em>Maxout</em>: A generalised activation function that can model a complex non-linear activation function.</p></li>
+<li><p><em>SoftMax</em>: SoftMax is the final layer to use if you wish to normalise probability outputs from a network which has multiple class outputs (e.g.&nbsp;you want the total of your probabilities for “this is dog”, “this is a cat”, “this is a fish” etc to add up to 1).</p></li>
+</ul>
+<p><img src="./images/activation.png" class="img-fluid"></p>
+</section>
+<section id="loss-functions" class="level2" data-number="11.4">
+<h2 data-number="11.4" class="anchored" data-anchor-id="loss-functions"><span class="header-section-number">11.4</span> Loss functions</h2>
+<p>Loss functions are critical to neural networks as they provide the measure by which the neural network is in error, allowing modification of the network to reduce error.</p>
+<p>The most common loss functions are:</p>
+<ul>
+<li><p><em>Mean Squared Error Loss</em>: Common loss function for regression (predicting values rather than class).</p></li>
+<li><p><em>Cross Entropy Loss</em>: Common loss function for classification. <em>Binary Cross Entropy Loss</em> is used when the output is a binary classifier (like survive/die in the Titanic model).</p></li>
+</ul>
+</section>
+<section id="how-do-neural-networks-learn-backpropagation-and-optimisation" class="level2" data-number="11.5">
+<h2 data-number="11.5" class="anchored" data-anchor-id="how-do-neural-networks-learn-backpropagation-and-optimisation"><span class="header-section-number">11.5</span> How do neural networks learn? Backpropagation and optimisation</h2>
+<p><em>Backpropagation</em> is the process by which the final loss is distributed back through the network, allowing each weight to be updated in proportion to its contribution to the final error.</p>
+<p>For more on backpropagation see: https://youtu.be/Ilg3gGewQ5U</p>
+<p>For deeper maths on backpropagation see: https://youtu.be/tIeHLnjs5U8</p>
+<p><em>Optimisation</em> is the step-wise process by which weights are updated. The basic underlying method, <em>gradient descent</em>, is that weights are adjusted in the direction that improves fit, and that weights are adjust more when the gradient (how much the output changes with each unit change to the weight) is higher.</p>
+<p>Common optimisers used are:</p>
+<ul>
+<li><p><em>Stochastic gradient descent</em>: Updates gradients based on single samples. Can be inefficient, so can be modified to use gradients based on a small batch (e.g.&nbsp;8-64) of samples. <em>Momentum</em> may also be added to avoid becoming trapped in local minima.</p></li>
+<li><p><em>RMSprop</em>: A ‘classic’ benchmark optimiser. Adjusts steps based on a weighted average of all weight gradients.</p></li>
+<li><p><em>Adam</em>: The most common optimiser used today. Has complex adaptive momentum for speeding up learning.</p></li>
+</ul>
+<p>For more on optimisers see: https://youtu.be/mdKjMPmcWjY</p>
+</section>
+<section id="training-a-neural-network---the-practicalities" class="level2" data-number="11.6">
+<h2 data-number="11.6" class="anchored" data-anchor-id="training-a-neural-network---the-practicalities"><span class="header-section-number">11.6</span> Training a neural network - the practicalities</h2>
+<p>The training process of a neural network consists of three general phases which are repeated across all the data. All of the data is passed through the network multiple times (the number of iterations, which may be as few as 3-5 or may be 1000+) until all of the data has been fed forward and backpropogated - this then represents an “Epoch”. The three phases of an iteration are :</p>
+<ol type="1">
+<li><p>Pass training X data to the network and predict y</p></li>
+<li><p>Calculate the ‘loss’ (error) between the predicted and observed (actual) values of y</p></li>
+<li><p>Backpropagate the loss and update the weights (the job of the optimiser).</p></li>
+</ol>
+<p>The learning is repeated until maximum accuracy is achieved (but keep an eye on accuracy of test data as well as training data as the network may develop significant over-fitting to training data unless steps are taken to offset the potential for over-fitting, such as use of ‘drop-out’ layers described below).</p>
+</section>
+<section id="architectures" class="level2" data-number="11.7">
+<h2 data-number="11.7" class="anchored" data-anchor-id="architectures"><span class="header-section-number">11.7</span> Architectures</h2>
+<p>The most common fully connected architecture design is to have the same number of neurons in each layer, and adjust that number and the number of layers. This makes exploring the size of the neural net relatively easy (if sometimes slow).</p>
+<p>As a rough guide - the size of the neural net should be increased until it over-fits data (increasing accuracy of training data with reducing accuracy of test data), and then use a form of <em>regularisation</em> to reduce the over-fitting (we will go through this process below).</p>
+<p>Some common architecture designs, which may be mixed in a single larger network, are:</p>
+<ul>
+<li><p><em>Fully connected</em>: The output of each neuron goes to all neurons in the next layer.</p></li>
+<li><p><em>Convolutional</em>: Common in image analysis. Small ‘mini-nets’ that look for patterns across the data - like a ‘sliding window’, but that can look at the whole picture at the same time. May also be used, for example, in time series to look for fingerprints of events anywhere in the time series.</p></li>
+<li><p><em>Recurrent</em>: Introduce the concept of some (limited) form of memory into the network - at any one time a number of input steps are affecting the network output. Useful, for example, in sound or video analysis.</p></li>
+<li><p><em>Transformers</em>: Sequence-to-sequence architecture. Convert sequences to sequences (e.g.&nbsp;translation). Big in Natural Language Processing - we’ll cover them in the NLP module.</p></li>
+<li><p><em>Embedding</em>: Converts a categorical value to a vector of numbers, e.g.&nbsp;word-2-vec converts words to vectors such that similar meaning words are positioned close together.</p></li>
+<li><p><em>Encoding</em>: Reduce many input features to fewer. This ‘compresses’ the data. De-coding layers may convert back to the original data.</p></li>
+<li><p><em>Generative</em>: Rather than regression, or classification, generative networks output some form of synthetic data (such as fake images; see https://www.thispersondoesnotexist.com/).</p></li>
+</ul>
+<p>For the kind of classification problem we’re looking at here, a Fully Connected Neural Network is the most commonly used architecture now, and typically you keep all layers the same size (the same number of Neurons) apart from your output layer. This makes it easy to test different sizes of network.</p>
+</section>
+<section id="additional-resources" class="level2" data-number="11.8">
+<h2 data-number="11.8" class="anchored" data-anchor-id="additional-resources"><span class="header-section-number">11.8</span> Additional resources</h2>
+<p>Also see the excellent introductory video (20 minutes) from 3brown1blue: https://youtu.be/aircAruvnKk</p>
+</section>
+<section id="lets-go" class="level2" data-number="11.9">
+<h2 data-number="11.9" class="anchored" data-anchor-id="lets-go"><span class="header-section-number">11.9</span> Let’s go !!!!!!!!!!!!!</h2>
+<p>In this first cell, we’re going to be a bit naughty, and turn off warnings (such as “you’re using an out-of-date version of this” etc). This will make the notebook cleaner and easier to interpret as you learn this, but in real-world work you shouldn’t really do this unless you know what you’re doing. But we’ll do it here because we do (I think).</p>
+<p>Don’t forget to select the tf_hsma environment when you run the first cell. If you’re prompted that you need to install the ipykernel, click that you want to do it.</p>
+<div id="cell-11" class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Turn warnings off to keep notebook tidy</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-modules" class="level2" data-number="11.10">
+<h2 data-number="11.10" class="anchored" data-anchor-id="load-modules"><span class="header-section-number">11.10</span> Load modules</h2>
+<p>First we need to import the packages we’re going to use. The first three (MatPlotLib, NumPy and Pandas) are the stuff we use in pretty much everything in data science. From SciKitLearn, we import functions to automatically split our data into training and test data (as we did for the Logistic Regression example) and to min-max normalise our data (remember we said that normalising our data is typical with Neural Networks (“Neural Networks are Normal”), and standardising our data - what we did last time - is typical with Logistic Regression). Remember, when we normalise we’ll scale all our feature values so they fall between 0 and 1.</p>
+<p>Then, we import a load of things we’ll need from TensorFlow (and particularly Keras). TensorFlow is the Neural Network architecture developed by Google, but the interface (API) for TensorFlow is not easy to use. So instead, we use Keras, which sits on top of TensorFlow, and allows us to interact with TensorFlow in a much more straightforward way. Don’t worry about what each of things that we import are at this stage - we’ll see them in use as we move through the notebook.</p>
+<div id="cell-14" class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co"># sklearn for pre-processing</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> MinMaxScaler</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co"># TensorFlow sequential model</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras <span class="im">import</span> backend <span class="im">as</span> K</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Sequential</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> BatchNormalization</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> Dense</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> Dropout</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.optimizers <span class="im">import</span> Adam</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="download-data-if-not-previously-downloaded" class="level2" data-number="11.11">
+<h2 data-number="11.11" class="anchored" data-anchor-id="download-data-if-not-previously-downloaded"><span class="header-section-number">11.11</span> Download data if not previously downloaded</h2>
+<p>This cell downloads the Titanic data that we’re going to use. You don’t need to do this if you’ve already downloaded the data, but if you’re unsure, run the cell anyway (it takes seconds!).</p>
+<div id="cell-17" class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>download_required <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> download_required:</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Download processed data:</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    address <span class="op">=</span> <span class="st">'https://raw.githubusercontent.com/MichaelAllen1966/'</span> <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>                <span class="st">'1804_python_healthcare/master/titanic/data/processed_data.csv'</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.read_csv(address)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a data subfolder if one does not already exist</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> os</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    data_directory <span class="op">=</span><span class="st">'./data/'</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> os.path.exists(data_directory):</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>        os.makedirs(data_directory)</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Save data</span></span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    data.to_csv(data_directory <span class="op">+</span> <span class="st">'processed_data.csv'</span>, index<span class="op">=</span><span class="va">False</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="define-function-to-scale-data" class="level2" data-number="11.12">
+<h2 data-number="11.12" class="anchored" data-anchor-id="define-function-to-scale-data"><span class="header-section-number">11.12</span> Define function to scale data</h2>
+<p>In neural networks it is common to normalise (scale input data 0-1) rather than use standardise (subtracting mean and dividing by standard deviation) each feature. As with the Logistic Regression example, we’ll set up a function here that we can call whenever we want to do this (the only difference being that in the Logistic Regression example we standardised our data, rather than normalising it).</p>
+<div id="cell-19" class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> scale_data(X_train, X_test):</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Scale data 0-1 based on min and max in training set"""</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialise a new scaling object for normalising input data</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    sc <span class="op">=</span> MinMaxScaler()</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply the scaler to the training and test sets</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    train_sc <span class="op">=</span> sc.fit_transform(X_train)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    test_sc <span class="op">=</span> sc.fit_transform(X_test)</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> train_sc, test_sc</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="load-data" class="level2" data-number="11.13">
+<h2 data-number="11.13" class="anchored" data-anchor-id="load-data"><span class="header-section-number">11.13</span> Load data</h2>
+<p>We’re going to load up and do a bit of initial prep on our data, much as we did before for the Logistic Regression. We’re going to load our data (which is stored in a .csv file) into a Pandas DataFrame. We’ll convert all the data into floating point numbers so everything is consistent. We’ll drop the Passenger ID column, as that isn’t part of the original data, and we don’t want the machine to learn anything from this.</p>
+<p>Then we define our input (X) and output (y) data. Remember we’re trying to predict y from X. X is all of our columns (features) except for the “Survived” column (which is our label - the thing we’re trying to predict). The <code>axis=1</code> argument tells Pandas we’re referring to columns when we tell it to drop stuff.</p>
+<p>We also set up NumPy versions of our X and y data - this is a necessary step if we were going to do k-fold splits (remember we talked about those in the last session - it’s where we split up our data into training and test sets in multiple different ways to try to avoid biasing the data) as it requires the data to be in NumPy arrays, not Pandas DataFrames. We’re not actually going to use k-fold splits in this workbook, but we’ll still go through the step of getting the data into the right format for when we do. Because, in real world applications, you <em>should</em> use k-fold splits.</p>
+<div id="cell-22" class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> pd.read_csv(<span class="st">'data/processed_data.csv'</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Make all data 'float' type</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> data.astype(<span class="bu">float</span>)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>data.drop(<span class="st">'PassengerId'</span>, inplace<span class="op">=</span><span class="va">True</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> data.drop(<span class="st">'Survived'</span>,axis<span class="op">=</span><span class="dv">1</span>) <span class="co"># X = all 'data' except the 'survived' column</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> data[<span class="st">'Survived'</span>] <span class="co"># y = 'survived' column from 'data'</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert to NumPy as required for k-fold splits</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>X_np <span class="op">=</span> X.values</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>y_np <span class="op">=</span> y.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="set-up-neural-net" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Set up neural net</h1>
+<p>We’re going to put construction of the neural net into a separate function, which is what we’ve written in this next cell. The function that we’ve written will build a network of any size, but the one we set up here will be relatively simple. As you read each bit in this description, you should scroll down to look at the corresponding code in the next cell.</p>
+<p>Here we use the <code>sequential</code> method to set up a TensorFlow neural network. This simpler method assumes each layer of the Neural Network occurs in sequence (one layer of neurons feeds into the next layer of neurons etc). There are more complex architectures, but the simple sequential architecture is common. Though simpler, it lacks some flexibility. But don’t worry about that for the moment.</p>
+<p>The inputs into the function are as follows :</p>
+<ul>
+<li>The number of features in our input data (the columns of data from which we hope to make a prediction)</li>
+<li>The number of hidden layers - these are the layers between our input layer and our output layer. Determining how many works best for your problem is a bit of an art-form, but you’ll probably find something between 1 and 7 hidden layers works well for classification problems. We set a default of 3, so if we don’t specify a number when calling the function, it’ll default to 3 hidden layers. (The assignment operator <code>=</code> denotes we are specifying a default value)</li>
+<li>The number of neurons in each hidden layer. We default to 128 if no number is specified when the function is called.</li>
+<li>The dropout rate (the proportion of neurons that will be randomly “switched off” in each epoch to try to prevent overfitting. We default to no dropout if no value is specified when the function is called.</li>
+<li>A learning rate, that will be used by the optimiser to determine how much it should change each time in response to the estimated error. In other words, how sensitive will it be. As with most things in a Neural Network, you will spend a lot of time playing around with these parameters to see if it improves things, but a good default is 0.003 (although for some non-Adam optimisers, that can be considered quite high, so you might want to try much lower learning rates to see if they help). We use 0.003 as the default if no value is specified when the function is called.</li>
+</ul>
+<p>In the function, we first clear the session. There used to be issues with TensorFlow keeping old models hanging around in memory - whilst it probably isn’t an issue now, we still do it just to be on the safe side.</p>
+<p>Then we create a new Sequential Neural Network.</p>
+<p>Next, we use a loop to set up the hidden layers of our network (the input layer is added automatically and we don’t need to explicitly define it). For each pass of the <em>for loop</em> (you’ll see we go around the loop the number of times we have passed in as being the number of hidden layers we want) we :</p>
+<ul>
+<li>Add a fully-connected (dense) layer (one in which all of the neurons in the layer are connected to all of the neurons in the next layer), using the ReLU activation function for its neurons (you could of course change this to another activation function of your choosing)</li>
+<li>Add a dropout layer, to enable dropout</li>
+</ul>
+<p>So, we end up with a set of fully-connected layers, each with a dropout layer after it.</p>
+<p>Once we’ve added all our hidden layers we then add our final output layer. Here, we add a densely connected output layer with 1 neuron (which will calculate the output - the prediction) using the Sigmoid activation function (because we want our output to be a kind of “likelihood” of it being a classified as a ‘1’ - whatever that represents in our model. By default, anything over 0.5 will be classified as 1, whilst everything else will be classified as 0). Note of caution - do not interpret this number as being a probability that something belongs to a certain class, it’s subtly different (so for example, you shouldn’t see that a passenger has an output value of 0.6, and interpret that that they had a 60% probability of survival. That’s NOT correct. Rather, the model has classified them as likely a survivor with a small amount of confidence (it’s only just past the threshold of 0.5)).</p>
+<p>Next we add our optimiser engine. Remember - if in doubt, use Adam :)</p>
+<p>Then we “compile” the Neural Network (this is just a fancy way of saying we’ll tell TensorFlow to build what we’ve set up above). When we tell it to compile, we tell it the loss function we want to use (here - binary crossentropy, because it’s a classification problem with two possible outputs - for the Titanic problem, this is “survived” or “died”). We also specify the metrics that we want TensorFlow to monitor as the model is being “fitted” (learning) - here we tell it to monitor accuracy.</p>
+<p>Finally, we get the function to return the network so we can use it (remember - the purpose of this function is to build a network to our specifications when we call it).</p>
+<div id="cell-24" class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> make_net(number_features,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>             hidden_layers<span class="op">=</span><span class="dv">3</span>,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             hidden_layer_neurones<span class="op">=</span><span class="dv">128</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>             dropout<span class="op">=</span><span class="fl">0.0</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>             learning_rate<span class="op">=</span><span class="fl">0.003</span>):</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Make TensorFlow neural net"""</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Clear Tensorflow</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    K.clear_session()</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Set up neural net</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>    net <span class="op">=</span> Sequential()</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add hidden hidden_layers using a loop</span></span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(hidden_layers):</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add fully connected layer with ReLu activation</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>        net.add(Dense(</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>            hidden_layer_neurones,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>            input_dim<span class="op">=</span>number_features,</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>            activation<span class="op">=</span><span class="st">'relu'</span>))</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add droput layer</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>        net.add(Dropout(dropout))</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add final sigmoid activation output</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>    net.add(Dense(<span class="dv">1</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>))</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compiling model</span></span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>    opt <span class="op">=</span> Adam(learning_rate<span class="op">=</span>learning_rate)</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>    net.<span class="bu">compile</span>(loss<span class="op">=</span><span class="st">'binary_crossentropy'</span>,</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>                optimizer<span class="op">=</span>opt,</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>                metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> net</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="show-summary-of-the-model-structure" class="level2" data-number="12.1">
+<h2 data-number="12.1" class="anchored" data-anchor-id="show-summary-of-the-model-structure"><span class="header-section-number">12.1</span> Show summary of the model structure</h2>
+<p>Here we will create an arbitrary model (that we won’t use) with 10 input features, just to show the function we wrote above being used and so you can see how you can use the summary() function of a model to see an overview of the structure of it.</p>
+<p>We can see what the layers are in order. Remember we have five main layers in total (input, 3 x hidden, output) but you won’t see the input layer here. When you run the below cell, you should see three hidden layers (each with a dropout layer immediately after) with 128 neurons in each layer followed by a final output layer with just one neuron. You’ll also see that there are over 34,500 parameters (weights) that it needs to optimise, just in a very simple network like this on a very small dataset with 10 features. Now you can see why they’re so complicated (and magical!).</p>
+<div id="cell-26" class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_net(<span class="dv">10</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>WARNING:tensorflow:From c:\Users\Sammi\Anaconda3\envs\ml_sammi\Lib\site-packages\keras\src\backend\common\global_state.py:82: The name tf.reset_default_graph is deprecated. Please use tf.compat.v1.reset_default_graph instead.
+</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold">Model: "sequential"</span>
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace">┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━┓
+┃<span style="font-weight: bold"> Layer (type)                    </span>┃<span style="font-weight: bold"> Output Shape           </span>┃<span style="font-weight: bold">       Param # </span>┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ dense (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                   │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │         <span style="color: #00af00; text-decoration-color: #00af00">1,408</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout (<span style="color: #0087ff; text-decoration-color: #0087ff">Dropout</span>)               │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │             <span style="color: #00af00; text-decoration-color: #00af00">0</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_1 (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                 │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │        <span style="color: #00af00; text-decoration-color: #00af00">16,512</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_1 (<span style="color: #0087ff; text-decoration-color: #0087ff">Dropout</span>)             │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │             <span style="color: #00af00; text-decoration-color: #00af00">0</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_2 (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                 │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │        <span style="color: #00af00; text-decoration-color: #00af00">16,512</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dropout_2 (<span style="color: #0087ff; text-decoration-color: #0087ff">Dropout</span>)             │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">128</span>)            │             <span style="color: #00af00; text-decoration-color: #00af00">0</span> │
+├─────────────────────────────────┼────────────────────────┼───────────────┤
+│ dense_3 (<span style="color: #0087ff; text-decoration-color: #0087ff">Dense</span>)                 │ (<span style="color: #00d7ff; text-decoration-color: #00d7ff">None</span>, <span style="color: #00af00; text-decoration-color: #00af00">1</span>)              │           <span style="color: #00af00; text-decoration-color: #00af00">129</span> │
+└─────────────────────────────────┴────────────────────────┴───────────────┘
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Total params: </span><span style="color: #00af00; text-decoration-color: #00af00">34,561</span> (135.00 KB)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">34,561</span> (135.00 KB)
+</pre>
+</div>
+<div class="cell-output cell-output-display">
+<pre style="white-space:pre;overflow-x:auto;line-height:normal;font-family:Menlo,'DejaVu Sans Mono',consolas,'Courier New',monospace"><span style="font-weight: bold"> Non-trainable params: </span><span style="color: #00af00; text-decoration-color: #00af00">0</span> (0.00 B)
+</pre>
+</div>
+</div>
+</section>
+<section id="split-and-scale-data" class="level2" data-number="12.2">
+<h2 data-number="12.2" class="anchored" data-anchor-id="split-and-scale-data"><span class="header-section-number">12.2</span> Split and Scale data</h2>
+<p>Now, as we did before with the Logistic Regression, we split our data into training and test sets. We’ve got 25% carved off for our test set. But what is this <code>random_state=42</code> thing? So, pulling back the curtain now, but the random numbers we tend to generate in our computers are not <em>strictly</em> random. They are <em>pseudo-random</em> - they use complex algorithms to generate numbers that appear random (and which are good enough for the vast majority of things you will ever do). Because they are pseudo-random, this means that we can fix the random number generator to use a pre-defined <em>seed</em> - a number that feeds into the algorithm which will ensure we always get the same random numbers being generated. This can be useful if we’re 1) teaching, and you want everyone to get the same thing, or 2) validating our outputs whilst we build our model. Since we’re doing both of those things here, we use a fixed seed.</p>
+<p>But why the number 42? Those of you who have read, watched and / or listened to The Hitchiker’s Guide to the Galaxy will know why. Those that haven’t, go off and read, watch or listen to it and then you’ll get the “joke” (Computer Scientists love doing stuff like this..)</p>
+<p>Once we’ve established our training and testing data, we scale the data by normalising it, using the function we wrote earlier (which uses min-max normalisation).</p>
+<div id="cell-29" class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split data</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    X_np, y_np, test_size <span class="op">=</span> <span class="fl">0.25</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale X data</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>X_train_sc, X_test_sc <span class="op">=</span> scale_data(X_train, X_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s just have a look at the scaled data for the first two records (passengers) in our input data. We <em>should</em> see that all of the feature values have scaled between 0 and 1.</p>
+<div id="cell-31" class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>X_train_sc[<span class="dv">0</span>:<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>array([[0.        , 0.34656949, 0.        , 0.        , 0.05953204,
+        1.        , 0.        , 0.        , 0.828125  , 0.        ,
+        1.        , 0.        , 0.        , 1.        , 0.        ,
+        0.        , 0.        , 1.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        ],
+       [1.        , 0.30887158, 0.        , 0.        , 0.01376068,
+        0.        , 0.        , 1.        , 0.        , 1.        ,
+        1.        , 0.        , 0.        , 1.        , 0.        ,
+        0.        , 0.        , 0.        , 0.        , 0.        ,
+        0.        , 0.        , 0.        , 1.        ]])</code></pre>
+</div>
+</div>
+<p>We can compare this with the unscaled data for the same two passengers to see the original values.</p>
+<div id="cell-33" class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>X_train[<span class="dv">0</span>:<span class="dv">2</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>array([[  1.  ,  28.  ,   0.  ,   0.  ,  30.5 ,   1.  ,   0.  ,   0.  ,
+        106.  ,   0.  ,   1.  ,   0.  ,   0.  ,   1.  ,   0.  ,   0.  ,
+          0.  ,   1.  ,   0.  ,   0.  ,   0.  ,   0.  ,   0.  ,   0.  ],
+       [  3.  ,  25.  ,   0.  ,   0.  ,   7.05,   0.  ,   0.  ,   1.  ,
+          0.  ,   1.  ,   1.  ,   0.  ,   0.  ,   1.  ,   0.  ,   0.  ,
+          0.  ,   0.  ,   0.  ,   0.  ,   0.  ,   0.  ,   0.  ,   1.  ]])</code></pre>
+</div>
+</div>
+</section>
+<section id="function-to-calculate-accuracy" class="level2" data-number="12.3">
+<h2 data-number="12.3" class="anchored" data-anchor-id="function-to-calculate-accuracy"><span class="header-section-number">12.3</span> Function to calculate accuracy</h2>
+<p>We’re now going to write a little function that will report the accuracy of the model on the training set and the test set. This will help us assess how well our model is performing. We pass into the function the model, the (normalised) input data for both the training and test sets, and the output data for both the training and test sets.</p>
+<p>The function uses the <code>predict</code> function of the model to grab out the probability predictions based on the input data for the training set. We specify that a classification of 1 (in the case of Titanic, this means “survived”) should be made if the probability predicted is greater than 0.5. Then we “flatten” the data to get it in the right shape (because it comes out as a complex shape - a tensor. Don’t worry about this. Just imagine a blob of data, and we squish it so we can read it). Then we use <code>y_pred_train == y_train</code> to return boolean <code>True</code> values for each time where the prediction (survived or died) matched the real answer, and take the average of those matches (that effectively gives us accuracy - what proportion of times did prediction match real answer). (Python interprets Trues and Falses as 1s and 0s, in case you’re wondering how that works!).</p>
+<p>Then we do the same as above but for the test set.</p>
+<p>Finally we print the accuracy on both the training and test sets.</p>
+<div id="cell-36" class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> calculate_accuracy(model, X_train_sc, X_test_sc, y_train, y_test):</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""Calculate and print accuracy of training and test data fits"""</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    <span class="co">### Get accuracy of fit to training data</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    probability <span class="op">=</span> model.predict(X_train_sc)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    y_pred_train <span class="op">=</span> probability <span class="op">&gt;=</span> <span class="fl">0.5</span></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>    y_pred_train <span class="op">=</span> y_pred_train.flatten()</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    accuracy_train <span class="op">=</span> np.mean(y_pred_train <span class="op">==</span> y_train)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>    <span class="co">### Get accuracy of fit to test data</span></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    probability <span class="op">=</span> model.predict(X_test_sc)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    y_pred_test <span class="op">=</span> probability <span class="op">&gt;=</span> <span class="fl">0.5</span></span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    y_pred_test <span class="op">=</span> y_pred_test.flatten()</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    accuracy_test <span class="op">=</span> np.mean(y_pred_test <span class="op">==</span> y_test)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show acuracy</span></span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span> (<span class="ss">f'Training accuracy </span><span class="sc">{</span>accuracy_train<span class="sc">:0.3f}</span><span class="ss">'</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span> (<span class="ss">f'Test accuracy </span><span class="sc">{</span>accuracy_test<span class="sc">:0.3f}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’ll also write a little function to plot the accuracy on the training set and the test set over time. Keras keeps a “history” (which is a dictionary) of the learning which allows us to do this easily. It’s quite useful to plot the performance over time, as it allows us to look for indications as to when the model is becoming overfitted etc.</p>
+<p>In our function, we’ll grab out the values from the passed in history dictionary, and then plot them using standard matplotlib plotting methods.</p>
+<div id="cell-38" class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_training(history_dict):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    acc_values <span class="op">=</span> history_dict[<span class="st">'accuracy'</span>]</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    val_acc_values <span class="op">=</span> history_dict[<span class="st">'val_accuracy'</span>]</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    epochs <span class="op">=</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(acc_values) <span class="op">+</span> <span class="dv">1</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    fig, ax <span class="op">=</span> plt.subplots()</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    ax.set_xlabel(<span class="st">'Time'</span>)</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>    ax.plot(epochs, acc_values, color<span class="op">=</span><span class="st">'blue'</span>, label<span class="op">=</span><span class="st">'Training acc'</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>    ax.plot(epochs, val_acc_values, color<span class="op">=</span><span class="st">'red'</span>, label<span class="op">=</span><span class="st">'Test accuracy'</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="st">'Training and validation accuracy'</span>)</span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    ax.legend()</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    fig.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="run-the-model" class="level2" data-number="12.4">
+<h2 data-number="12.4" class="anchored" data-anchor-id="run-the-model"><span class="header-section-number">12.4</span> Run the model</h2>
+<p>We’ve now defined everything that will allow us to build the model. So we’ll now define the model we want and train it!</p>
+<p>To work out how many features we need (which we then need to pass into the <code>make_net</code> function we defined earlier), we can simply look at the number of columns in our X (input) data (where we’ve removed the ‘label’ (output) column). We can grab this from the standardised training data, by looking at index 1 of the shape tuple (index 0 would be rows (passengers in the Titanic data), and index 1 would be columns). We can see this if we run the code <code>X_train_sc.shape</code>. Try it yourself (just insert a code cell below this markdown cell)! You should see there are 668 rows, and 24 columns. Therefore, we’ve got 668 passengers and 24 features.</p>
+<p>Next we call our <code>make_net</code> function, passing in the number of features we calculated above. This will create our Neural Network. As we’ve passed in nothing else, we’ll have defaults for the rest of the network - 3 hidden layers, 128 neurons per layer, a learning rate of 0.003 and no dropout (although, we will still have dropput layers, they just won’t do anything).</p>
+<p>Then, we fit (train) the model. To do that, we call the <code>fit</code> method of the model, and pass it :</p>
+<ul>
+<li>the standardised training data</li>
+<li>the output (label) data</li>
+<li>the number of epochs (training generations - full passes of all of the data through the network). Initially, we want enough epochs that we see overfitting start to happen (the training accuracy starts to plateau) because then we know we’ve trained “enough” (albeit a bit too much) and can then look to reduce it back a bit</li>
+<li>the batch size (how much data we shunt through the network at once. Yann LeCun (French Computer Scientist) advises “Friends shouldn’t let friends use batch sizes of more than 32”. But we will here… :))</li>
+<li>the data we want to use as our “validation data” (which we use to fine tune the parameters of the model). Keras will check performance on this validation data. Here we just use our test set, but you should really have a separate “validation set” that you’d use whilst tuning the model.</li>
+<li>whether we want to see all the things it’s doing as it’s learning. If we set <code>verbose</code> to 0, all of this will be hidden (keeping things tidier), but as we’re experimenting with our model, it’s a good idea to set <code>verbose</code> to 1 so we can monitor what it’s doing.</li>
+</ul>
+<p>You’ll also see that we not only call <code>model.fit</code> but we store the output of that function in a variable called <code>history</code>. This allows us to access all the useful information that keras was keeping track of whilst the model was training. We’ll use that later.</p>
+<p>Note - when you run the cell below, the model will be built and then start training. How long this takes will depend on your computer specs, including whether you have a CUDA-enabled GPU (if you’re running locally) or your priority in the queue for cloud computing (if you’re running this on CoLab).</p>
+<p>Dan has a very fast computer with a high performance CUDA-enabled GPU, and the below (with 250 epochs) takes about 6 seconds on the GPU and about 11 seconds on the CPU. It might take a little while longer on yours - don’t worry, as long as you can see it moving through the epochs.</p>
+<p>For each epoch, you’ll see various information, including the epoch number, the loss (error) that’s been calculated in that epoch (for both the training and validation data), and the accuracy (for both the training and validation data). You should see loss gradually reduce, and accuracy gradually increase. But you’ll likely see that training accuracy tends to keep getting better (before it reaches a plateau) and validation accuracy gets better but then starts to drop a bit. That’s a sign of overfitting (our model’s become increasingly brilliant for the training data, but starting to get increasingly rubbish at being more generally useful).</p>
+<div id="cell-41" class="cell" data-execution_count="13">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define network</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>number_features <span class="op">=</span> X_train_sc.shape[<span class="dv">1</span>]</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_net(number_features)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co">### Train model (and store training info in history)</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(X_train_sc,</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>                    y_train,</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>                    epochs<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>                    batch_size<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>                    validation_data<span class="op">=</span>(X_test_sc, y_test),</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>                    verbose<span class="op">=</span><span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 1s 15ms/step - accuracy: 0.5894 - loss: 0.6207 - val_accuracy: 0.7489 - val_loss: 0.5343
+Epoch 2/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.7645 - loss: 0.5116 - val_accuracy: 0.7803 - val_loss: 0.4798
+Epoch 3/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.7654 - loss: 0.4894 - val_accuracy: 0.8117 - val_loss: 0.4555
+Epoch 4/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8346 - loss: 0.4073 - val_accuracy: 0.8027 - val_loss: 0.4448
+Epoch 5/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8469 - loss: 0.4044 - val_accuracy: 0.7758 - val_loss: 0.5106
+Epoch 6/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8175 - loss: 0.4148 - val_accuracy: 0.8117 - val_loss: 0.4318
+Epoch 7/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8279 - loss: 0.3935 - val_accuracy: 0.8027 - val_loss: 0.4375
+Epoch 8/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8366 - loss: 0.4046 - val_accuracy: 0.8027 - val_loss: 0.4640
+Epoch 9/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8236 - loss: 0.4184 - val_accuracy: 0.8072 - val_loss: 0.4712
+Epoch 10/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8344 - loss: 0.3743 - val_accuracy: 0.8072 - val_loss: 0.4901
+Epoch 11/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8338 - loss: 0.3994 - val_accuracy: 0.8072 - val_loss: 0.4832
+Epoch 12/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8273 - loss: 0.3678 - val_accuracy: 0.8206 - val_loss: 0.4622
+Epoch 13/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8438 - loss: 0.3705 - val_accuracy: 0.7937 - val_loss: 0.5043
+Epoch 14/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8478 - loss: 0.3726 - val_accuracy: 0.7982 - val_loss: 0.5243
+Epoch 15/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8387 - loss: 0.3699 - val_accuracy: 0.8251 - val_loss: 0.5106
+Epoch 16/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8551 - loss: 0.3550 - val_accuracy: 0.7578 - val_loss: 0.4942
+Epoch 17/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8415 - loss: 0.3626 - val_accuracy: 0.7848 - val_loss: 0.5928
+Epoch 18/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8400 - loss: 0.3567 - val_accuracy: 0.8161 - val_loss: 0.4823
+Epoch 19/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8661 - loss: 0.3454 - val_accuracy: 0.8117 - val_loss: 0.5576
+Epoch 20/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8629 - loss: 0.3278 - val_accuracy: 0.8206 - val_loss: 0.5223
+Epoch 21/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8526 - loss: 0.3550 - val_accuracy: 0.8117 - val_loss: 0.5888
+Epoch 22/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8647 - loss: 0.3301 - val_accuracy: 0.8206 - val_loss: 0.5603
+Epoch 23/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8622 - loss: 0.3260 - val_accuracy: 0.8072 - val_loss: 0.6828
+Epoch 24/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8717 - loss: 0.3087 - val_accuracy: 0.8251 - val_loss: 0.5943
+Epoch 25/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8460 - loss: 0.3446 - val_accuracy: 0.8027 - val_loss: 0.6073
+Epoch 26/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8601 - loss: 0.3467 - val_accuracy: 0.8161 - val_loss: 0.6106
+Epoch 27/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8680 - loss: 0.3236 - val_accuracy: 0.8072 - val_loss: 0.5850
+Epoch 28/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8689 - loss: 0.3169 - val_accuracy: 0.7803 - val_loss: 0.7162
+Epoch 29/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8634 - loss: 0.3264 - val_accuracy: 0.8161 - val_loss: 0.6224
+Epoch 30/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8903 - loss: 0.2943 - val_accuracy: 0.8117 - val_loss: 0.6422
+Epoch 31/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9017 - loss: 0.2637 - val_accuracy: 0.7892 - val_loss: 0.7711
+Epoch 32/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8693 - loss: 0.3187 - val_accuracy: 0.7848 - val_loss: 0.6392
+Epoch 33/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8680 - loss: 0.3148 - val_accuracy: 0.8072 - val_loss: 0.6474
+Epoch 34/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8742 - loss: 0.3211 - val_accuracy: 0.8117 - val_loss: 0.7169
+Epoch 35/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8721 - loss: 0.3133 - val_accuracy: 0.8251 - val_loss: 0.7245
+Epoch 36/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8893 - loss: 0.3021 - val_accuracy: 0.7982 - val_loss: 0.7685
+Epoch 37/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9001 - loss: 0.2708 - val_accuracy: 0.8027 - val_loss: 0.8393
+Epoch 38/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8821 - loss: 0.2675 - val_accuracy: 0.7982 - val_loss: 0.7583
+Epoch 39/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 5ms/step - accuracy: 0.8499 - loss: 0.3350 - val_accuracy: 0.7982 - val_loss: 0.9216
+Epoch 40/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8934 - loss: 0.2763 - val_accuracy: 0.7803 - val_loss: 0.7980
+Epoch 41/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8644 - loss: 0.3112 - val_accuracy: 0.8027 - val_loss: 0.8078
+Epoch 42/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8864 - loss: 0.2734 - val_accuracy: 0.7982 - val_loss: 0.9689
+Epoch 43/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8827 - loss: 0.3064 - val_accuracy: 0.8027 - val_loss: 0.8839
+Epoch 44/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9008 - loss: 0.2696 - val_accuracy: 0.8027 - val_loss: 0.8412
+Epoch 45/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8761 - loss: 0.3005 - val_accuracy: 0.7892 - val_loss: 1.1601
+Epoch 46/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8918 - loss: 0.3082 - val_accuracy: 0.8072 - val_loss: 0.7309
+Epoch 47/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8803 - loss: 0.2903 - val_accuracy: 0.7758 - val_loss: 0.7280
+Epoch 48/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8889 - loss: 0.2922 - val_accuracy: 0.7982 - val_loss: 0.7266
+Epoch 49/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8941 - loss: 0.2913 - val_accuracy: 0.7848 - val_loss: 0.8113
+Epoch 50/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8766 - loss: 0.2874 - val_accuracy: 0.8117 - val_loss: 0.7758
+Epoch 51/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8967 - loss: 0.2838 - val_accuracy: 0.7803 - val_loss: 0.8528
+Epoch 52/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8900 - loss: 0.2808 - val_accuracy: 0.7937 - val_loss: 0.8781
+Epoch 53/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8819 - loss: 0.2898 - val_accuracy: 0.8027 - val_loss: 0.9223
+Epoch 54/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8991 - loss: 0.2740 - val_accuracy: 0.8027 - val_loss: 0.9023
+Epoch 55/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8974 - loss: 0.2591 - val_accuracy: 0.7848 - val_loss: 1.0537
+Epoch 56/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8879 - loss: 0.2733 - val_accuracy: 0.8027 - val_loss: 0.9573
+Epoch 57/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9012 - loss: 0.2500 - val_accuracy: 0.7982 - val_loss: 0.9256
+Epoch 58/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 5ms/step - accuracy: 0.8798 - loss: 0.2910 - val_accuracy: 0.7982 - val_loss: 0.9879
+Epoch 59/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9055 - loss: 0.2531 - val_accuracy: 0.7848 - val_loss: 1.0956
+Epoch 60/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8856 - loss: 0.2910 - val_accuracy: 0.8027 - val_loss: 0.9856
+Epoch 61/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8928 - loss: 0.2812 - val_accuracy: 0.8117 - val_loss: 0.9860
+Epoch 62/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8784 - loss: 0.2847 - val_accuracy: 0.7892 - val_loss: 1.0311
+Epoch 63/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8993 - loss: 0.2482 - val_accuracy: 0.8161 - val_loss: 1.0434
+Epoch 64/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8928 - loss: 0.2728 - val_accuracy: 0.7892 - val_loss: 0.9807
+Epoch 65/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9025 - loss: 0.2681 - val_accuracy: 0.8027 - val_loss: 1.0414
+Epoch 66/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8994 - loss: 0.2493 - val_accuracy: 0.8117 - val_loss: 1.0447
+Epoch 67/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8953 - loss: 0.2612 - val_accuracy: 0.8027 - val_loss: 1.0741
+Epoch 68/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9051 - loss: 0.2460 - val_accuracy: 0.8161 - val_loss: 1.1610
+Epoch 69/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8952 - loss: 0.2547 - val_accuracy: 0.8027 - val_loss: 1.1435
+Epoch 70/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8987 - loss: 0.2439 - val_accuracy: 0.8206 - val_loss: 1.1246
+Epoch 71/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9031 - loss: 0.2437 - val_accuracy: 0.8072 - val_loss: 1.1499
+Epoch 72/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8842 - loss: 0.2726 - val_accuracy: 0.8117 - val_loss: 1.1043
+Epoch 73/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8934 - loss: 0.2641 - val_accuracy: 0.8027 - val_loss: 1.1882
+Epoch 74/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8886 - loss: 0.2595 - val_accuracy: 0.7937 - val_loss: 1.1686
+Epoch 75/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8918 - loss: 0.2583 - val_accuracy: 0.8027 - val_loss: 1.1956
+Epoch 76/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9068 - loss: 0.2362 - val_accuracy: 0.8117 - val_loss: 1.1993
+Epoch 77/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8918 - loss: 0.2342 - val_accuracy: 0.8251 - val_loss: 1.2751
+Epoch 78/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9055 - loss: 0.2424 - val_accuracy: 0.7937 - val_loss: 1.3184
+Epoch 79/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8898 - loss: 0.2682 - val_accuracy: 0.8161 - val_loss: 1.2269
+Epoch 80/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8871 - loss: 0.2632 - val_accuracy: 0.8117 - val_loss: 1.2805
+Epoch 81/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8793 - loss: 0.2542 - val_accuracy: 0.8206 - val_loss: 1.2283
+Epoch 82/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9033 - loss: 0.2421 - val_accuracy: 0.7713 - val_loss: 1.5658
+Epoch 83/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8944 - loss: 0.2464 - val_accuracy: 0.8117 - val_loss: 1.3082
+Epoch 84/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8859 - loss: 0.2661 - val_accuracy: 0.8117 - val_loss: 1.3584
+Epoch 85/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9031 - loss: 0.2413 - val_accuracy: 0.8117 - val_loss: 1.1927
+Epoch 86/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9046 - loss: 0.2347 - val_accuracy: 0.7848 - val_loss: 1.6775
+Epoch 87/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8836 - loss: 0.2844 - val_accuracy: 0.8027 - val_loss: 1.4149
+Epoch 88/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8927 - loss: 0.2857 - val_accuracy: 0.8206 - val_loss: 0.9820
+Epoch 89/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8876 - loss: 0.2678 - val_accuracy: 0.7937 - val_loss: 1.1708
+Epoch 90/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8873 - loss: 0.3120 - val_accuracy: 0.8117 - val_loss: 1.0113
+Epoch 91/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9057 - loss: 0.2408 - val_accuracy: 0.7937 - val_loss: 1.0703
+Epoch 92/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9058 - loss: 0.2399 - val_accuracy: 0.8027 - val_loss: 1.0774
+Epoch 93/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9008 - loss: 0.2366 - val_accuracy: 0.8027 - val_loss: 1.0887
+Epoch 94/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8977 - loss: 0.2540 - val_accuracy: 0.7848 - val_loss: 1.2006
+Epoch 95/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8891 - loss: 0.2580 - val_accuracy: 0.7937 - val_loss: 1.1843
+Epoch 96/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9007 - loss: 0.2438 - val_accuracy: 0.8161 - val_loss: 1.0627
+Epoch 97/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8920 - loss: 0.2779 - val_accuracy: 0.8072 - val_loss: 1.1149
+Epoch 98/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9096 - loss: 0.2227 - val_accuracy: 0.8027 - val_loss: 1.1924
+Epoch 99/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9080 - loss: 0.2331 - val_accuracy: 0.7937 - val_loss: 1.1596
+Epoch 100/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9054 - loss: 0.2379 - val_accuracy: 0.8027 - val_loss: 1.2739
+Epoch 101/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9096 - loss: 0.2241 - val_accuracy: 0.8117 - val_loss: 1.2690
+Epoch 102/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9056 - loss: 0.2272 - val_accuracy: 0.8161 - val_loss: 1.2559
+Epoch 103/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8976 - loss: 0.2425 - val_accuracy: 0.8161 - val_loss: 1.2372
+Epoch 104/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9137 - loss: 0.2138 - val_accuracy: 0.8027 - val_loss: 1.3317
+Epoch 105/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8869 - loss: 0.2747 - val_accuracy: 0.8072 - val_loss: 1.3751
+Epoch 106/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9027 - loss: 0.2292 - val_accuracy: 0.7982 - val_loss: 1.3915
+Epoch 107/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9002 - loss: 0.2418 - val_accuracy: 0.7982 - val_loss: 1.3141
+Epoch 108/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9095 - loss: 0.2260 - val_accuracy: 0.8117 - val_loss: 1.3647
+Epoch 109/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9018 - loss: 0.2362 - val_accuracy: 0.8027 - val_loss: 1.3624
+Epoch 110/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9090 - loss: 0.2283 - val_accuracy: 0.8027 - val_loss: 1.3470
+Epoch 111/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9253 - loss: 0.1949 - val_accuracy: 0.8072 - val_loss: 1.4330
+Epoch 112/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8980 - loss: 0.2377 - val_accuracy: 0.8027 - val_loss: 1.4227
+Epoch 113/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9182 - loss: 0.2017 - val_accuracy: 0.7982 - val_loss: 1.4266
+Epoch 114/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9243 - loss: 0.1946 - val_accuracy: 0.8072 - val_loss: 1.4049
+Epoch 115/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9201 - loss: 0.2086 - val_accuracy: 0.8117 - val_loss: 1.5301
+Epoch 116/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9081 - loss: 0.2193 - val_accuracy: 0.8072 - val_loss: 1.4580
+Epoch 117/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9265 - loss: 0.1897 - val_accuracy: 0.8117 - val_loss: 1.6142
+Epoch 118/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9002 - loss: 0.2341 - val_accuracy: 0.8117 - val_loss: 1.4237
+Epoch 119/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9007 - loss: 0.2468 - val_accuracy: 0.8072 - val_loss: 1.4527
+Epoch 120/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9050 - loss: 0.2552 - val_accuracy: 0.7982 - val_loss: 1.4548
+Epoch 121/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9180 - loss: 0.2204 - val_accuracy: 0.8072 - val_loss: 1.5674
+Epoch 122/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8948 - loss: 0.2526 - val_accuracy: 0.8206 - val_loss: 1.4663
+Epoch 123/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9069 - loss: 0.2285 - val_accuracy: 0.7982 - val_loss: 1.6611
+Epoch 124/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9029 - loss: 0.2316 - val_accuracy: 0.8027 - val_loss: 1.4079
+Epoch 125/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9042 - loss: 0.2263 - val_accuracy: 0.8027 - val_loss: 1.5330
+Epoch 126/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9162 - loss: 0.2163 - val_accuracy: 0.8296 - val_loss: 1.5034
+Epoch 127/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9054 - loss: 0.2326 - val_accuracy: 0.8161 - val_loss: 1.4424
+Epoch 128/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9115 - loss: 0.2303 - val_accuracy: 0.7848 - val_loss: 1.5685
+Epoch 129/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9084 - loss: 0.2286 - val_accuracy: 0.8161 - val_loss: 1.5663
+Epoch 130/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9012 - loss: 0.2440 - val_accuracy: 0.8251 - val_loss: 1.6786
+Epoch 131/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9033 - loss: 0.2283 - val_accuracy: 0.8027 - val_loss: 1.6477
+Epoch 132/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9100 - loss: 0.2287 - val_accuracy: 0.8027 - val_loss: 1.5885
+Epoch 133/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9024 - loss: 0.2255 - val_accuracy: 0.8072 - val_loss: 1.5587
+Epoch 134/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9128 - loss: 0.2038 - val_accuracy: 0.7803 - val_loss: 1.7733
+Epoch 135/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9135 - loss: 0.2249 - val_accuracy: 0.8206 - val_loss: 1.4879
+Epoch 136/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8921 - loss: 0.2508 - val_accuracy: 0.8161 - val_loss: 1.5537
+Epoch 137/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9112 - loss: 0.2282 - val_accuracy: 0.7982 - val_loss: 1.7163
+Epoch 138/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9134 - loss: 0.1975 - val_accuracy: 0.8072 - val_loss: 1.6882
+Epoch 139/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9144 - loss: 0.2140 - val_accuracy: 0.8027 - val_loss: 1.7327
+Epoch 140/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9187 - loss: 0.1955 - val_accuracy: 0.8161 - val_loss: 1.6430
+Epoch 141/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9207 - loss: 0.2046 - val_accuracy: 0.8117 - val_loss: 1.6671
+Epoch 142/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9009 - loss: 0.2251 - val_accuracy: 0.7937 - val_loss: 1.7145
+Epoch 143/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9103 - loss: 0.2087 - val_accuracy: 0.8117 - val_loss: 1.7463
+Epoch 144/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9042 - loss: 0.2122 - val_accuracy: 0.8161 - val_loss: 1.6424
+Epoch 145/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9137 - loss: 0.2045 - val_accuracy: 0.8027 - val_loss: 1.8534
+Epoch 146/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9114 - loss: 0.2300 - val_accuracy: 0.8296 - val_loss: 1.6790
+Epoch 147/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9051 - loss: 0.2112 - val_accuracy: 0.8072 - val_loss: 1.7015
+Epoch 148/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8965 - loss: 0.2250 - val_accuracy: 0.8206 - val_loss: 1.6936
+Epoch 149/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9083 - loss: 0.2216 - val_accuracy: 0.8206 - val_loss: 1.7359
+Epoch 150/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9207 - loss: 0.2102 - val_accuracy: 0.8251 - val_loss: 1.7592
+Epoch 151/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9028 - loss: 0.2250 - val_accuracy: 0.7982 - val_loss: 1.8319
+Epoch 152/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9255 - loss: 0.1886 - val_accuracy: 0.8117 - val_loss: 1.8389
+Epoch 153/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 5ms/step - accuracy: 0.9227 - loss: 0.1878 - val_accuracy: 0.8117 - val_loss: 1.8696
+Epoch 154/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 5ms/step - accuracy: 0.9283 - loss: 0.1935 - val_accuracy: 0.8117 - val_loss: 1.8943
+Epoch 155/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9197 - loss: 0.2009 - val_accuracy: 0.8117 - val_loss: 1.8556
+Epoch 156/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9152 - loss: 0.1983 - val_accuracy: 0.8341 - val_loss: 1.8383
+Epoch 157/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9130 - loss: 0.2079 - val_accuracy: 0.7892 - val_loss: 1.9779
+Epoch 158/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9167 - loss: 0.1999 - val_accuracy: 0.8161 - val_loss: 1.9083
+Epoch 159/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9226 - loss: 0.1932 - val_accuracy: 0.8072 - val_loss: 1.9361
+Epoch 160/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9228 - loss: 0.1930 - val_accuracy: 0.8161 - val_loss: 1.8877
+Epoch 161/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9087 - loss: 0.2185 - val_accuracy: 0.8206 - val_loss: 1.8714
+Epoch 162/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9219 - loss: 0.2077 - val_accuracy: 0.7982 - val_loss: 1.8634
+Epoch 163/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9236 - loss: 0.1848 - val_accuracy: 0.8206 - val_loss: 1.9356
+Epoch 164/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9014 - loss: 0.2278 - val_accuracy: 0.8251 - val_loss: 1.9316
+Epoch 165/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9297 - loss: 0.1821 - val_accuracy: 0.8117 - val_loss: 2.0098
+Epoch 166/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9080 - loss: 0.2141 - val_accuracy: 0.8296 - val_loss: 1.9840
+Epoch 167/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9241 - loss: 0.2003 - val_accuracy: 0.8117 - val_loss: 1.9231
+Epoch 168/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9093 - loss: 0.2033 - val_accuracy: 0.8161 - val_loss: 1.9485
+Epoch 169/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9049 - loss: 0.2183 - val_accuracy: 0.8251 - val_loss: 1.9557
+Epoch 170/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9057 - loss: 0.2173 - val_accuracy: 0.8117 - val_loss: 1.9372
+Epoch 171/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9197 - loss: 0.1989 - val_accuracy: 0.8206 - val_loss: 1.9695
+Epoch 172/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9055 - loss: 0.2403 - val_accuracy: 0.8117 - val_loss: 1.9416
+Epoch 173/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9126 - loss: 0.2024 - val_accuracy: 0.8161 - val_loss: 2.0270
+Epoch 174/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9190 - loss: 0.2114 - val_accuracy: 0.8117 - val_loss: 2.0630
+Epoch 175/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9069 - loss: 0.2111 - val_accuracy: 0.8206 - val_loss: 2.1022
+Epoch 176/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9156 - loss: 0.2135 - val_accuracy: 0.7982 - val_loss: 2.1598
+Epoch 177/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9094 - loss: 0.2158 - val_accuracy: 0.8206 - val_loss: 2.1567
+Epoch 178/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9122 - loss: 0.2049 - val_accuracy: 0.8072 - val_loss: 2.1527
+Epoch 179/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8964 - loss: 0.2311 - val_accuracy: 0.8072 - val_loss: 2.1787
+Epoch 180/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9075 - loss: 0.2177 - val_accuracy: 0.8027 - val_loss: 2.2352
+Epoch 181/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9073 - loss: 0.2131 - val_accuracy: 0.8117 - val_loss: 1.9330
+Epoch 182/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8977 - loss: 0.2284 - val_accuracy: 0.8117 - val_loss: 1.9407
+Epoch 183/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9147 - loss: 0.2004 - val_accuracy: 0.8296 - val_loss: 1.9101
+Epoch 184/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9151 - loss: 0.2007 - val_accuracy: 0.8117 - val_loss: 2.0112
+Epoch 185/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9225 - loss: 0.1961 - val_accuracy: 0.8206 - val_loss: 2.0660
+Epoch 186/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9253 - loss: 0.1922 - val_accuracy: 0.8117 - val_loss: 2.1485
+Epoch 187/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9210 - loss: 0.2142 - val_accuracy: 0.8206 - val_loss: 2.1587
+Epoch 188/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9134 - loss: 0.2054 - val_accuracy: 0.8161 - val_loss: 1.9631
+Epoch 189/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9137 - loss: 0.2075 - val_accuracy: 0.7982 - val_loss: 2.1524
+Epoch 190/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9022 - loss: 0.2224 - val_accuracy: 0.8027 - val_loss: 2.2020
+Epoch 191/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9206 - loss: 0.2107 - val_accuracy: 0.8117 - val_loss: 2.2168
+Epoch 192/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9074 - loss: 0.2091 - val_accuracy: 0.8117 - val_loss: 2.2054
+Epoch 193/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9178 - loss: 0.2138 - val_accuracy: 0.8251 - val_loss: 2.1201
+Epoch 194/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9078 - loss: 0.2185 - val_accuracy: 0.8206 - val_loss: 2.1451
+Epoch 195/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9156 - loss: 0.1962 - val_accuracy: 0.8206 - val_loss: 2.1810
+Epoch 196/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 5ms/step - accuracy: 0.9142 - loss: 0.1864 - val_accuracy: 0.8072 - val_loss: 2.1932
+Epoch 197/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9102 - loss: 0.2077 - val_accuracy: 0.8206 - val_loss: 2.1306
+Epoch 198/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9122 - loss: 0.2230 - val_accuracy: 0.8027 - val_loss: 2.2611
+Epoch 199/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9082 - loss: 0.2241 - val_accuracy: 0.8027 - val_loss: 2.1842
+Epoch 200/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.8993 - loss: 0.2270 - val_accuracy: 0.7982 - val_loss: 2.2389
+Epoch 201/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9177 - loss: 0.1908 - val_accuracy: 0.8161 - val_loss: 2.2516
+Epoch 202/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9275 - loss: 0.1922 - val_accuracy: 0.7982 - val_loss: 2.3478
+Epoch 203/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9113 - loss: 0.2057 - val_accuracy: 0.8251 - val_loss: 2.3609
+Epoch 204/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9170 - loss: 0.1957 - val_accuracy: 0.7982 - val_loss: 2.2785
+Epoch 205/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9049 - loss: 0.2291 - val_accuracy: 0.8251 - val_loss: 2.1180
+Epoch 206/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9051 - loss: 0.2010 - val_accuracy: 0.8161 - val_loss: 2.1736
+Epoch 207/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9332 - loss: 0.1805 - val_accuracy: 0.8206 - val_loss: 2.0803
+Epoch 208/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9142 - loss: 0.2080 - val_accuracy: 0.8072 - val_loss: 2.1005
+Epoch 209/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9203 - loss: 0.2045 - val_accuracy: 0.7892 - val_loss: 2.3324
+Epoch 210/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9069 - loss: 0.2234 - val_accuracy: 0.7848 - val_loss: 2.7736
+Epoch 211/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9192 - loss: 0.2368 - val_accuracy: 0.8027 - val_loss: 1.5454
+Epoch 212/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8978 - loss: 0.2573 - val_accuracy: 0.7803 - val_loss: 1.1517
+Epoch 213/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9071 - loss: 0.2551 - val_accuracy: 0.7758 - val_loss: 1.0374
+Epoch 214/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9016 - loss: 0.2485 - val_accuracy: 0.8072 - val_loss: 0.9112
+Epoch 215/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9007 - loss: 0.2578 - val_accuracy: 0.7982 - val_loss: 1.1066
+Epoch 216/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9042 - loss: 0.2257 - val_accuracy: 0.8072 - val_loss: 1.1030
+Epoch 217/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9149 - loss: 0.2167 - val_accuracy: 0.7848 - val_loss: 1.2617
+Epoch 218/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9233 - loss: 0.2147 - val_accuracy: 0.8251 - val_loss: 1.1500
+Epoch 219/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9081 - loss: 0.2371 - val_accuracy: 0.7937 - val_loss: 1.2920
+Epoch 220/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9214 - loss: 0.2137 - val_accuracy: 0.7982 - val_loss: 1.2232
+Epoch 221/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9008 - loss: 0.2419 - val_accuracy: 0.8161 - val_loss: 1.1188
+Epoch 222/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9204 - loss: 0.2116 - val_accuracy: 0.8072 - val_loss: 1.2259
+Epoch 223/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8947 - loss: 0.2215 - val_accuracy: 0.7982 - val_loss: 1.3546
+Epoch 224/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9186 - loss: 0.1976 - val_accuracy: 0.8117 - val_loss: 1.3808
+Epoch 225/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9148 - loss: 0.2067 - val_accuracy: 0.8206 - val_loss: 1.3904
+Epoch 226/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9233 - loss: 0.1872 - val_accuracy: 0.8161 - val_loss: 1.4109
+Epoch 227/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.8977 - loss: 0.2221 - val_accuracy: 0.8072 - val_loss: 1.4569
+Epoch 228/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9299 - loss: 0.1682 - val_accuracy: 0.7937 - val_loss: 1.4599
+Epoch 229/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9222 - loss: 0.1951 - val_accuracy: 0.8161 - val_loss: 1.4171
+Epoch 230/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9279 - loss: 0.1891 - val_accuracy: 0.8206 - val_loss: 1.4438
+Epoch 231/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9115 - loss: 0.1979 - val_accuracy: 0.8117 - val_loss: 1.4886
+Epoch 232/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9193 - loss: 0.1959 - val_accuracy: 0.7982 - val_loss: 1.5116
+Epoch 233/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9065 - loss: 0.2083 - val_accuracy: 0.8072 - val_loss: 1.5837
+Epoch 234/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9154 - loss: 0.1979 - val_accuracy: 0.7937 - val_loss: 1.6042
+Epoch 235/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9243 - loss: 0.1860 - val_accuracy: 0.7982 - val_loss: 1.6524
+Epoch 236/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9287 - loss: 0.1729 - val_accuracy: 0.7982 - val_loss: 1.6007
+Epoch 237/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9362 - loss: 0.1780 - val_accuracy: 0.8072 - val_loss: 1.5806
+Epoch 238/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9251 - loss: 0.1722 - val_accuracy: 0.7892 - val_loss: 1.6355
+Epoch 239/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 5ms/step - accuracy: 0.9195 - loss: 0.1850 - val_accuracy: 0.8161 - val_loss: 1.6360
+Epoch 240/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9123 - loss: 0.1994 - val_accuracy: 0.7937 - val_loss: 1.6234
+Epoch 241/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9266 - loss: 0.1822 - val_accuracy: 0.8072 - val_loss: 1.6250
+Epoch 242/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9271 - loss: 0.1808 - val_accuracy: 0.7937 - val_loss: 1.6264
+Epoch 243/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9291 - loss: 0.1882 - val_accuracy: 0.7982 - val_loss: 1.6230
+Epoch 244/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9061 - loss: 0.2033 - val_accuracy: 0.8161 - val_loss: 1.6164
+Epoch 245/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9224 - loss: 0.1934 - val_accuracy: 0.8027 - val_loss: 1.6767
+Epoch 246/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9153 - loss: 0.1981 - val_accuracy: 0.7937 - val_loss: 1.7148
+Epoch 247/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9193 - loss: 0.2082 - val_accuracy: 0.8161 - val_loss: 1.6781
+Epoch 248/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9271 - loss: 0.1777 - val_accuracy: 0.8117 - val_loss: 1.7112
+Epoch 249/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step - accuracy: 0.9212 - loss: 0.1772 - val_accuracy: 0.8161 - val_loss: 1.7084
+Epoch 250/250
+11/11 ━━━━━━━━━━━━━━━━━━━━ 0s 4ms/step - accuracy: 0.9130 - loss: 0.2118 - val_accuracy: 0.8072 - val_loss: 1.6142</code></pre>
+</div>
+</div>
+<p>Let’s calculate and print the final accuracy scores for both the training and test (validation) data. Remember, we’ll call the function we wrote to do this earlier. You should see training accuracy is much better than test accuracy. We’ve overfitted. Don’t worry - we’ll try and improve that in a moment.</p>
+<div id="cell-43" class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show acuracy</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>calculate_accuracy(model, X_train_sc, X_test_sc, y_train, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21/21 ━━━━━━━━━━━━━━━━━━━━ 0s 2ms/step 
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 1ms/step 
+Training accuracy 0.918
+Test accuracy 0.807</code></pre>
+</div>
+</div>
+<section id="get-training-history" class="level3" data-number="12.4.1">
+<h3 data-number="12.4.1" class="anchored" data-anchor-id="get-training-history"><span class="header-section-number">12.4.1</span> Get training history</h3>
+<p><code>history</code> is a dictionary containing data collected during training. Remember - we stored it when we called the <code>model.fit()</code> method. Let’s take a look at the keys in this dictionary (these are the metrics monitored during training).</p>
+<div id="cell-45" class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>history_dict <span class="op">=</span> history.history</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>history_dict.keys()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>dict_keys(['accuracy', 'loss', 'val_accuracy', 'val_loss'])</code></pre>
+</div>
+</div>
+<p>We see from the above that we have four keys in our history dictionary - loss, accuracy, validation loss and validation accuracy.</p>
+</section>
+<section id="plot-training-history" class="level3" data-number="12.4.2">
+<h3 data-number="12.4.2" class="anchored" data-anchor-id="plot-training-history"><span class="header-section-number">12.4.2</span> Plot training history</h3>
+<p>Now let’s plot our history data using the plotting function we wrote earlier.</p>
+<div id="cell-49" class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>plot_training(history.history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="4f_HSMA_neural_nets_files/figure-html/cell-17-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You should see from the plot above that the training accuracy gets better and better before reaching a plateau, but for the test data the accuracy initially improves, but then reduces a bit and plateaus at poorer performance. As we thought, we’ve overfitted. So let’s look at how we can now try to reduce the overfitting.</p>
+</section>
+</section>
+<section id="improving-fit-by-avoiding-or-reducing-over-fitting" class="level2" data-number="12.5">
+<h2 data-number="12.5" class="anchored" data-anchor-id="improving-fit-by-avoiding-or-reducing-over-fitting"><span class="header-section-number">12.5</span> Improving fit by avoiding or reducing-over fitting</h2>
+<p>In the lecture, we discussed a number of strategies we can take to try to reduce overfitting. Let’s look at each in turn.</p>
+<section id="reduce-complexity-of-model" class="level3" data-number="12.5.1">
+<h3 data-number="12.5.1" class="anchored" data-anchor-id="reduce-complexity-of-model"><span class="header-section-number">12.5.1</span> 1) Reduce complexity of model</h3>
+<p>A simple initial strategy is to reduce the complexity of the model, so that the “dividing line” it learns becomes less complex (and less likely to be an overfit).</p>
+<p>Here, we create a new model where we reduce the number of hidden layers to 1 (from the default we used of 3), and we reduce the number of neurons on each hidden layer to 32 (from the default we used of 128).</p>
+<p>Then we fit (train) this new model, exactly as we did before. We’ll set <code>verbose</code> to 0 though, so we don’t see everything as it trains (if you’d rather see it, just change <code>verbose</code> to 1 below).</p>
+<div id="cell-55" class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define network</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>number_features <span class="op">=</span> X_train_sc.shape[<span class="dv">1</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_net(number_features,</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>                hidden_layers<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>                hidden_layer_neurones<span class="op">=</span><span class="dv">32</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a><span class="co">### Train model (and stote training info in history)</span></span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(X_train_sc,</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a>                    y_train,</span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>                    epochs<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" aria-hidden="true" tabindex="-1"></a>                    batch_size<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" aria-hidden="true" tabindex="-1"></a>                    validation_data<span class="op">=</span>(X_test_sc, y_test),</span>
+<span id="cb23-13"><a href="#cb23-13" aria-hidden="true" tabindex="-1"></a>                    verbose<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Let’s calculate, print and plot accuracy as we did before.</p>
+<div id="cell-57" class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show acuracy</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>calculate_accuracy(model, X_train_sc, X_test_sc, y_train, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21/21 ━━━━━━━━━━━━━━━━━━━━ 0s 2ms/step 
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 2ms/step 
+Training accuracy 0.880
+Test accuracy 0.825</code></pre>
+</div>
+</div>
+<div id="cell-58" class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>plot_training(history.history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="4f_HSMA_neural_nets_files/figure-html/cell-20-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You should see that the simplification of the model above has improved things a bit (though it may not, there’s randomness at play here, and your network may have learned differently) - training accuracy has reduced, but test accuracy (our measure of how generally useful our model will be beyond the training set) has improved - a little bit. But there’s still a bit of a gap between them - we’re still overfitting.</p>
+</section>
+<section id="reduce-training-time" class="level3" data-number="12.5.2">
+<h3 data-number="12.5.2" class="anchored" data-anchor-id="reduce-training-time"><span class="header-section-number">12.5.2</span> 2) Reduce training time</h3>
+<p>For the moment, let’s do one change at a time, so we’ll go back to our original model before trying our next strategy.</p>
+<p>Another approach we can use is simply to stop training for so long. We can see from our earlier plots that things improve in the test set initially but then reduces. So, by not training for so long, we can stop training before it significantly overfits.</p>
+<p>Here, we’ll run the model exactly as we did the first time, except we’ll only run it for 25 epochs, rather than 250 - just 10% of the original training time.</p>
+<div id="cell-62" class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define network</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>number_features <span class="op">=</span> X_train_sc.shape[<span class="dv">1</span>]</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_net(number_features)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a><span class="co">### Train model (and stote training info in history)</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(X_train_sc,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>                    y_train,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>                    epochs<span class="op">=</span><span class="dv">25</span>,</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>                    batch_size<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>                    validation_data<span class="op">=</span>(X_test_sc, y_test),</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>                    verbose<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-63" class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show acuracy</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>calculate_accuracy(model, X_train_sc, X_test_sc, y_train, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21/21 ━━━━━━━━━━━━━━━━━━━━ 0s 2ms/step 
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 834us/step
+Training accuracy 0.868
+Test accuracy 0.798</code></pre>
+</div>
+</div>
+<div id="cell-64" class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plot_training(history.history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="4f_HSMA_neural_nets_files/figure-html/cell-23-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You should see that reducing the training time has also led to an improvement in test accuracy, much as simplifying the model did, although you might not. You might find that this measure is slightly more effective than the simplifying measure. You should also see from the plot that the test set accuracy tends to plateau, and it doesn’t get to the bit where it starts dropping significantly.</p>
+</section>
+<section id="add-dropout" class="level3" data-number="12.5.3">
+<h3 data-number="12.5.3" class="anchored" data-anchor-id="add-dropout"><span class="header-section-number">12.5.3</span> 3) Add dropout</h3>
+<p>Using dropout, in each training epoch a random selection of weights are “switched off” (the selection changes from epoch to epoch). It does this by using the Dropout layers after each hidden layer (remember when we added those earlier?), and randomly switching some of the incoming weights to 0. When predicting (after fitting) all weights are used. Dropout ensures that, during training, the model can’t rely too much on any set of weights (because they’ll occasionally be turned off), and looks to explore them more globally.</p>
+<p>This is probably the most common method for reducing overfitting. Dropout values of 0.2 to 0.5 are common.</p>
+<p>Here, we’ll use a dropout value of 0.5. So 50% of the weights coming out of each hidden layer will be set to 0 in each epoch.</p>
+<div id="cell-67" class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define network</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>number_features <span class="op">=</span> X_train_sc.shape[<span class="dv">1</span>]</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_net(number_features,</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                dropout<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a><span class="co">### Train model (and stote training info in history)</span></span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(X_train_sc,</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>                    y_train,</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>                    epochs<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>                    batch_size<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>                    validation_data<span class="op">=</span>(X_test_sc, y_test),</span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>                    verbose<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-68" class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show acuracy</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>calculate_accuracy(model, X_train_sc, X_test_sc, y_train, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21/21 ━━━━━━━━━━━━━━━━━━━━ 0s 3ms/step
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 1ms/step 
+Training accuracy 0.883
+Test accuracy 0.803</code></pre>
+</div>
+</div>
+<div id="cell-69" class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plot_training(history.history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="4f_HSMA_neural_nets_files/figure-html/cell-26-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Again, we should see that Dropout has improved performance on the test set over the base case (although it might not).</p>
+</section>
+<section id="combination-of-the-above-and-with-automatic-early-stopping" class="level3" data-number="12.5.4">
+<h3 data-number="12.5.4" class="anchored" data-anchor-id="combination-of-the-above-and-with-automatic-early-stopping"><span class="header-section-number">12.5.4</span> 4) Combination of the above and with automatic early stopping</h3>
+<p>Rather than just doing one of these things above, we tend to combine these measures. We’ll also use a Keras callback called EarlyStopping to automate the measure where we try to stop the training sooner. A callback is simply a function that Keras can use to perform various actions continually throughout the training.</p>
+<p>EarlyStopping will automatically stop the training when it appears the validation accuracy isn’t getting any better. It allows us to specify a <code>patience</code> level, which is the number of epochs we are prepared to wait (to give it a chance to improve) before EarlyStopping cuts things off. We can also optionally specify the minimum level we want our metric(s) (e.g.&nbsp;accuracy) to improve between epochs to count as an “improvement” - this allows us to say that we don’t consider a very small improvement as significant enough. You’ll see examples of this later in the course, but here we’ll just specify <code>patience</code>, and we’ll allow any improvement to count as improvement.</p>
+<p>Here, we specify a <code>patience</code> of 25 epochs - this means that we are prepared to wait 25 epochs to see if we can get a better accuracy score on the validation set. By setting <code>restore_best_weights=True</code> we tell it that, once it stops (if it didn’t manage to improve things in 25 epochs), then it should roll back the network to how it was when it reached its peak performance.</p>
+<p>So, here we set up our EarlyStopping callback. Then we define a simpler network with 1 hidden layer and 64 neurons per layer, have a 50% dropout rate, and run for 250 epochs <strong>but</strong> add in the EarlyStopping callback so that Keras will stop the training when things stop improving in the validation set, and revert back to the best version it’s seen.</p>
+<p>In the below, you’ll see we’ve also added another callback called ModelCheckpoint. This callback just automatically saves the model at its best point so we can easily retrieve it. In combination with EarlyStopping, this means we have a model that won’t keep going beyond when it should, and it’ll save the best version for later use.</p>
+<p>Note that as well as creating and defining the callbacks, you also need to ensure you add them into the list of inputs you pass in when you call <code>model.fit</code>.</p>
+<div id="cell-73" class="cell" data-execution_count="26">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define save checkpoint callback (only save if new best validation results)</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>checkpoint_cb <span class="op">=</span> keras.callbacks.ModelCheckpoint(</span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'model_checkpoint.keras'</span>, save_best_only<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Define early stopping callback</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Stop when no validation improvement for 25 epochs</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Restore weights to best validation accuracy</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>early_stopping_cb <span class="op">=</span> keras.callbacks.EarlyStopping(</span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a>    patience<span class="op">=</span><span class="dv">25</span>, restore_best_weights<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb35-10"><a href="#cb35-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-11"><a href="#cb35-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Define network</span></span>
+<span id="cb35-12"><a href="#cb35-12" aria-hidden="true" tabindex="-1"></a>number_features <span class="op">=</span> X_train_sc.shape[<span class="dv">1</span>]</span>
+<span id="cb35-13"><a href="#cb35-13" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> make_net(</span>
+<span id="cb35-14"><a href="#cb35-14" aria-hidden="true" tabindex="-1"></a>    number_features,</span>
+<span id="cb35-15"><a href="#cb35-15" aria-hidden="true" tabindex="-1"></a>    hidden_layers<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb35-16"><a href="#cb35-16" aria-hidden="true" tabindex="-1"></a>    hidden_layer_neurones<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb35-17"><a href="#cb35-17" aria-hidden="true" tabindex="-1"></a>    dropout<span class="op">=</span><span class="fl">0.5</span>)</span>
+<span id="cb35-18"><a href="#cb35-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-19"><a href="#cb35-19" aria-hidden="true" tabindex="-1"></a><span class="co">### Train model (and stote training info in history)</span></span>
+<span id="cb35-20"><a href="#cb35-20" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(X_train_sc,</span>
+<span id="cb35-21"><a href="#cb35-21" aria-hidden="true" tabindex="-1"></a>                    y_train,</span>
+<span id="cb35-22"><a href="#cb35-22" aria-hidden="true" tabindex="-1"></a>                    epochs<span class="op">=</span><span class="dv">250</span>,</span>
+<span id="cb35-23"><a href="#cb35-23" aria-hidden="true" tabindex="-1"></a>                    batch_size<span class="op">=</span><span class="dv">64</span>,</span>
+<span id="cb35-24"><a href="#cb35-24" aria-hidden="true" tabindex="-1"></a>                    validation_data<span class="op">=</span>(X_test_sc, y_test),</span>
+<span id="cb35-25"><a href="#cb35-25" aria-hidden="true" tabindex="-1"></a>                    verbose<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb35-26"><a href="#cb35-26" aria-hidden="true" tabindex="-1"></a>                    callbacks<span class="op">=</span>[checkpoint_cb, early_stopping_cb])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div id="cell-74" class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show accuracy</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>calculate_accuracy(model, X_train_sc, X_test_sc, y_train, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21/21 ━━━━━━━━━━━━━━━━━━━━ 0s 2ms/step 
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 1ms/step 
+Training accuracy 0.832
+Test accuracy 0.812</code></pre>
+</div>
+</div>
+<div id="cell-75" class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>plot_training(history.history)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="4f_HSMA_neural_nets_files/figure-html/cell-29-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You should see from the above, where we’ve combined the three anti-overfitting measures, that we get quite a decent improvement in test accuracy and a closing of the gap between training and test accuracy. This indicates that our model is far less overfitted than it was originally.</p>
+</section>
+</section>
+<section id="saving-and-reloading-the-model" class="level2" data-number="12.6">
+<h2 data-number="12.6" class="anchored" data-anchor-id="saving-and-reloading-the-model"><span class="header-section-number">12.6</span> Saving and reloading the model</h2>
+<p>Finally, we’ll look at how we can save our models so we can come back to them another time, and we don’t have to retrain them each time. For a small model like this, it’s not hugely inconvenient, but if we had a large model (that could take hours or even days to run) we don’t want to have to retrain it every time we want to use it!</p>
+<p>Here, we can use the <code>save()</code> function of the model to easily save a model. We just pass in a filename - we use the new .keras file extension. The model will be saved in the present working directory for the code.</p>
+<p>You can also see in the cell below how to load a model back in, and then use it again. You can verify this if you run the two cells below, which will save the model, then load it back up, and recalculate its accuracy - you should see that the reported training and test accuracies are the same as you had above (because that’s the model we saved and then loaded back up).</p>
+<div id="cell-79" class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save model</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>model.save(<span class="st">'titanic_tf_model.keras'</span>)</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and use saved model - we need to first set up a model</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>restored_model <span class="op">=</span> keras.models.load_model(<span class="st">'titanic_tf_model.keras'</span>)</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict classes as normal</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>predicted_proba <span class="op">=</span> restored_model.predict(X_test_sc)</span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-10"><a href="#cb39-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Show examples of predicted probability</span></span>
+<span id="cb39-11"><a href="#cb39-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(predicted_proba[<span class="dv">0</span>:<span class="dv">5</span>].flatten())</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 5ms/step 
+[0.09658381 0.15201195 0.15485787 0.85435104 0.68767977]</code></pre>
+</div>
+</div>
+<div id="cell-80" class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>calculate_accuracy(restored_model, X_train_sc, X_test_sc, y_train, y_test)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>21/21 ━━━━━━━━━━━━━━━━━━━━ 0s 1ms/step 
+7/7 ━━━━━━━━━━━━━━━━━━━━ 0s 1ms/step 
+Training accuracy 0.832
+Test accuracy 0.812</code></pre>
+</div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script>
+
+
+
+/* update total correct if #webex-total_correct exists */
+
+update_total_correct = function() {
+
+  console.log("webex: update total_correct");
+
+
+
+  var t = document.getElementsByClassName("webex-total_correct");
+
+  for (var i = 0; i < t.length; i++) {
+
+    p = t[i].parentElement;
+
+    var correct = p.getElementsByClassName("webex-correct").length;
+
+    var solvemes = p.getElementsByClassName("webex-solveme").length;
+
+    var radiogroups = p.getElementsByClassName("webex-radiogroup").length;
+
+    var selects = p.getElementsByClassName("webex-select").length;
+
+
+
+    t[i].innerHTML = correct + " of " + (solvemes + radiogroups + selects) + " correct";
+
+  }
+
+}
+
+
+
+/* webex-solution button toggling function */
+
+b_func = function() {
+
+  console.log("webex: toggle hide");
+
+
+
+  var cl = this.parentElement.classList;
+
+  if (cl.contains('open')) {
+
+    cl.remove("open");
+
+  } else {
+
+    cl.add("open");
+
+  }
+
+}
+
+
+
+/* check answers */
+
+check_func = function() {
+
+  console.log("webex: check answers");
+
+  console.log(document.getElementsByClassName("webex-check"));
+
+
+
+  var cl = this.parentElement.classList;
+
+  if (cl.contains('unchecked')) {
+
+    cl.remove("unchecked");
+
+    this.innerHTML = "Hide Answers";
+
+
+
+    check_answer_box_nodelist = this.parentNode.childNodes
+
+    console.log(check_answer_box_nodelist)
+
+    for (let i = 0; i < check_answer_box_nodelist.length; i++) {
+
+      var cl_inner = check_answer_box_nodelist[i].classList;
+
+      console.log("Nodelist", i, ":", cl_inner);
+
+      if (typeof cl_inner !== "undefined")
+
+        {
+
+          if (cl_inner.contains("feedback")) {
+
+            {/* console.log(cl_inner.contains("feedback")) */}
+
+            {/* console.log(check_answer_box_nodelist[i].style.display) */}
+
+            check_answer_box_nodelist[i].style.display = "block"
+
+          }
+
+        }
+
+
+
+      }
+
+
+
+  } else {
+
+    cl.add("unchecked");
+
+    this.innerHTML = "Show Answers";
+
+
+
+    check_answer_box_nodelist = this.parentNode.childNodes
+
+    console.log(check_answer_box_nodelist)
+
+    for (let i = 0; i < check_answer_box_nodelist.length; i++) {
+
+      var cl_inner = check_answer_box_nodelist[i].classList;
+
+      console.log("Nodelist", i, ":", cl_inner);
+
+      if (typeof cl_inner !== "undefined")
+
+        {
+
+          if (cl_inner.contains("feedback")) {
+
+            {/* console.log(cl_inner.contains("feedback")) */}
+
+            {/* console.log(check_answer_box_nodelist[i].style.display) */}
+
+            check_answer_box_nodelist[i].style.display = "none"
+
+          }
+
+        }
+
+
+
+      }
+
+
+
+  }
+
+
+
+}
+
+
+
+/* function for checking solveme answers */
+
+solveme_func = function(e) {
+
+  console.log("webex: check solveme");
+
+  {/* console.log(e) */}
+
+  {/* console.log(this) */}
+
+
+
+  var real_answers = JSON.parse(this.dataset.answer);
+
+  var my_answer = this.value;
+
+  var cl = this.classList;
+
+
+
+  var feedback = (this.getAttribute("feedback"))
+
+
+
+  if (document.getElementById('feedbackDiv'+this.id) === null){
+
+
+
+    var feedbackDiv = document.createElement("p");
+
+    feedbackDiv.setAttribute("id", "feedbackDiv"+this.id);
+
+    feedbackDiv.setAttribute("class", "feedback");
+
+
+
+  } else {
+
+
+
+    var feedbackDiv = document.getElementById('feedbackDiv'+this.id)
+
+    feedbackDiv.innerHTML = "";
+
+
+
+  }
+
+
+
+  // Check if inside a 'check answers' box - if so and if answer box is
+
+  // currently unchecked, ensure feedback is hidden
+
+  if (this.parentElement.parentElement.classList.contains("unchecked")) {
+
+    {/* console.log(this.parentElement.parentElement.classList); */}
+
+    feedbackDiv.style.display = "none"
+
+  } else {
+
+    {/* console.log(this.parentElement.parentElement.classList); */}
+
+    feedbackDiv.style.display = "block"
+
+  }
+
+
+
+  if (cl.contains("ignorecase")) {
+
+    my_answer = my_answer.toLowerCase();
+
+  }
+
+  if (cl.contains("nospaces")) {
+
+    my_answer = my_answer.replace(/ /g, "")
+
+  }
+
+
+
+  if (my_answer == "") {
+
+    cl.remove("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+  } else if (real_answers.includes(my_answer)) {
+
+    cl.add("webex-correct");
+
+    cl.remove("webex-incorrect");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+    cl.remove("webex-correct");
+
+    feedbackDiv.innerHTML = feedback;
+
+  	this.parentNode.insertAdjacentElement('afterend', feedbackDiv);
+
+  }
+
+
+
+  // match numeric answers within a specified tolerance
+
+  if(this.dataset.tol > 0){
+
+    var tol = JSON.parse(this.dataset.tol);
+
+    var matches = real_answers.map(x => Math.abs(x - my_answer) < tol)
+
+    if (matches.reduce((a, b) => a + b, 0) > 0) {
+
+      cl.add("webex-correct");
+
+    } else {
+
+      cl.remove("webex-correct");
+
+      feedbackDiv.innerHTML = feedback;
+
+  	  this.parentNode.insertAdjacentElement('afterend', feedbackDiv);
+
+    }
+
+  }
+
+
+
+  // added regex bit
+
+  if (cl.contains("regex")){
+
+    answer_regex = RegExp(real_answers.join("|"))
+
+    if (answer_regex.test(my_answer)) {
+
+      cl.add("webex-correct");
+
+    }
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking select answers */
+
+select_func = function(e) {
+
+  console.log("webex: check select");
+
+
+
+  var cl = this.classList
+
+  var feedback = (this[this.selectedIndex].getAttribute("feedback"))
+
+
+
+  if (document.getElementById('feedbackDiv'+this.id) === null){
+
+
+
+    var feedbackDiv = document.createElement("p");
+
+    feedbackDiv.setAttribute("id", "feedbackDiv"+this.id);
+
+    feedbackDiv.setAttribute("class", "feedback");
+
+
+
+  } else {
+
+
+
+    var feedbackDiv = document.getElementById('feedbackDiv'+this.id)
+
+    feedbackDiv.innerHTML = "";
+
+
+
+  }
+
+
+
+  feedbackDiv.innerHTML = feedback;
+
+  this.parentNode.insertAdjacentElement('afterend', feedbackDiv);
+
+
+
+  // Check if inside a 'check answers' box - if so and if answer box is
+
+  // currently unchecked, ensure feedback is hidden
+
+  if (this.parentElement.parentElement.classList.contains("unchecked")) {
+
+    {/* console.log(this.parentElement.parentElement.classList); */}
+
+    feedbackDiv.style.display = "none"
+
+  } else {
+
+    {/* console.log(this.parentElement.parentElement.classList); */}
+
+    feedbackDiv.style.display = "block"
+
+  }
+
+
+
+  /* add style */
+
+  cl.remove("webex-incorrect");
+
+  cl.remove("webex-correct");
+
+  if (this.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else if (this.value != "blank") {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+/* function for checking radiogroups answers */
+
+radiogroups_func = function(e) {
+
+  console.log("webex: check radiogroups");
+
+
+
+  var checked_button = document.querySelector('input[name=' + this.id + ']:checked');
+
+  var cl = checked_button.parentElement.classList;
+
+  var labels = checked_button.parentElement.parentElement.children;
+
+  var feedback = (checked_button.getAttribute("feedback"))
+
+  if (feedback !== null & feedback !== "<b></b>") { feedback = feedback + "</br></br>" }
+
+
+
+  if (document.getElementById('feedbackDiv'+this.id) === null){
+
+
+
+    var feedbackDiv = document.createElement("div");
+
+    feedbackDiv.setAttribute("id", "feedbackDiv"+this.id);
+
+    feedbackDiv.setAttribute("class", "feedback");
+
+
+
+  } else {
+
+
+
+      var feedbackDiv = document.getElementById('feedbackDiv'+this.id)
+
+      feedbackDiv.innerHTML = "";
+
+
+
+  }
+
+
+
+  const currentDiv = document.getElementById(this);
+
+  feedbackDiv.innerHTML = feedback;
+
+  this.insertAdjacentElement('afterend', feedbackDiv);
+
+
+
+    // Check if inside a 'check answers' box - if so and if answer box is
+
+  // currently unchecked, ensure feedback is hidden
+
+  if (this.parentElement.classList.contains("unchecked")) {
+
+      {/* console.log(this.parentElement.parentElement.classList); */}
+
+      feedbackDiv.style.display = "none"
+
+    } else {
+
+      {/* console.log(this.parentElement.parentElement.classList); */}
+
+      feedbackDiv.style.display = "block"
+
+    }
+
+
+
+
+
+  /* get rid of styles */
+
+  for (i = 0; i < labels.length; i++) {
+
+    labels[i].classList.remove("webex-incorrect");
+
+    labels[i].classList.remove("webex-correct");
+
+  }
+
+
+
+  /* add style */
+
+  if (checked_button.value == "answer") {
+
+    cl.add("webex-correct");
+
+  } else {
+
+    cl.add("webex-incorrect");
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+window.onload = function() {
+
+  console.log("webex onload");
+
+  /* set up solution buttons */
+
+  var buttons = document.getElementsByTagName("button");
+
+
+
+  for (var i = 0; i < buttons.length; i++) {
+
+    if (buttons[i].parentElement.classList.contains('webex-solution')) {
+
+      buttons[i].onclick = b_func;
+
+    }
+
+  }
+
+
+
+  var check_sections = document.getElementsByClassName("webex-check");
+
+  console.log("check:", check_sections.length);
+
+  for (var i = 0; i < check_sections.length; i++) {
+
+    check_sections[i].classList.add("unchecked");
+
+    console.log(check_sections[i])
+
+
+
+    let btn = document.createElement("button");
+
+    btn.innerHTML = "Show Answers";
+
+    btn.classList.add("webex-check-button");
+
+    // check_func removes the 'unchecked' class from box
+
+    // and updates the button text
+
+    // subsequently recheck all possible question funcs
+
+    // to ensure feedback gets shown or hidden as appropriate
+
+    btn.onclick = check_func;
+
+
+
+    check_sections[i].appendChild(btn);
+
+
+
+    let spn = document.createElement("span");
+
+    spn.classList.add("webex-total_correct");
+
+    check_sections[i].appendChild(spn);
+
+  }
+
+
+
+  /* set up webex-solveme inputs */
+
+  var solveme = document.getElementsByClassName("webex-solveme");
+
+
+
+  for (var i = 0; i < solveme.length; i++) {
+
+    /* make sure input boxes don't auto-anything */
+
+    solveme[i].setAttribute("autocomplete","off");
+
+    solveme[i].setAttribute("autocorrect", "off");
+
+    solveme[i].setAttribute("autocapitalize", "off");
+
+    solveme[i].setAttribute("spellcheck", "false");
+
+    solveme[i].value = "";
+
+
+
+    /* adjust answer for ignorecase or nospaces */
+
+    var cl = solveme[i].classList;
+
+    var real_answer = solveme[i].dataset.answer;
+
+    if (cl.contains("ignorecase")) {
+
+      real_answer = real_answer.toLowerCase();
+
+    }
+
+    if (cl.contains("nospaces")) {
+
+      real_answer = real_answer.replace(/ /g, "");
+
+    }
+
+    solveme[i].dataset.answer = real_answer;
+
+
+
+    /* attach checking function */
+
+    solveme[i].onkeyup = solveme_func;
+
+    solveme[i].onchange = solveme_func;
+
+
+
+    solveme[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  }
+
+
+
+  /* set up radiogroups */
+
+  var radiogroups = document.getElementsByClassName("webex-radiogroup");
+
+  for (var i = 0; i < radiogroups.length; i++) {
+
+    radiogroups[i].onchange = radiogroups_func;
+
+  }
+
+
+
+  /* set up selects */
+
+  var selects = document.getElementsByClassName("webex-select");
+
+  for (var i = 0; i < selects.length; i++) {
+
+    selects[i].onchange = select_func;
+
+    selects[i].insertAdjacentHTML("afterend", " <span class='webex-icon'></span>")
+
+  }
+
+
+
+  update_total_correct();
+
+}
+
+
+
+</script>
+
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = true;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="./4e_regression_tree_exercise_SOLUTION.html" class="pagination-link" aria-label="Exercise Solution: Regression with Trees (LOS Dataset)">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Exercise Solution: Regression with Trees (LOS Dataset)</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="./4f_ex_1_solution.html" class="pagination-link" aria-label="Exercise Solution: Neural Networks (Stroke Thromobolysis Dataset)">
+        <span class="nav-page-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Exercise Solution: Neural Networks (Stroke Thromobolysis Dataset)</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
