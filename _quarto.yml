@@ -64,7 +64,7 @@ book:
     background: '#8A1E1E'
     right:
     - icon: github
-      href: https://github.com/hsma-programme/
+      href: https://github.com/hsma-programme/h6_module4_notebooks
       aria-label: GitHub
   sidebar:
     search: true

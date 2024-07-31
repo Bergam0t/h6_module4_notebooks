@@ -4,7 +4,107 @@
     "href": "index.html",
     "title": "HSMA - Machine Learning Notebooks",
     "section": "",
-    "text": "Preface\nThis is a collection of the notebooks making up module 4 in the HSMA programme.",
+    "text": "Preface\nThis is a collection of the notebooks making up module 4 in the HSMA programme.\nLinks to the lecture videos and slides can be found below, including for sessions 4A, 4C and 4H, which did not have notebooks.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#a---an-introduction-to-machine-learning",
+    "href": "index.html#a---an-introduction-to-machine-learning",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4A - An Introduction to Machine Learning",
+    "text": "4A - An Introduction to Machine Learning\n\nIn this session we introduce some of the core concepts of AI and Machine Learning, including the concepts of features and labels, overfitting and underfitting and assessing model performance. We also explore some of the different types of machine learning, and practice our understanding of these new concepts by seeing if we can unpick patterns in Dan’s film preferences for “Dan’s Desert Island DVDs”.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#b---logistic-regression",
+    "href": "index.html#b---logistic-regression",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4B - Logistic Regression",
+    "text": "4B - Logistic Regression\n\nIn this session we’ll begin exploring some of the Machine Learning approaches that we can use, starting with Logistic Regression - a way of fusing together traditional linear regression models with a logistic function to create a powerful classifier model. You’ll see how these models can be implemented in Python, and practice using both the Titanic dataset you saw earlier in the course, as well as a new stroke patient dataset.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#c---ethics-in-ai",
+    "href": "index.html#c---ethics-in-ai",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4C - Ethics in AI",
+    "text": "4C - Ethics in AI\n\nIn this session we’ll explore some of the key ethical considerations that are fundamental to any machine learning work, as we explore what can (and will) go wrong.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#d---decision-trees-and-random-forests",
+    "href": "index.html#d---decision-trees-and-random-forests",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4D - Decision Trees and Random Forests",
+    "text": "4D - Decision Trees and Random Forests\n\nIn this session we’ll begin looking at how decision trees are built and how we can use the sklearn implementation of decision trees on our own datasets.\nWe also recap sensitivity (recall), specificity and precision and how to calculate these in sklearn.\n\nNext, we’ll take a look at how we can avoid some of the problems of decision trees by using an ensemble method - random forests.\nWe also find out an easier way of calculating sensitivity, specificity and precision in one function, as well as hearing about a new metric called f1 score, and we learn about the confusion matrix, which is a powerful tool for helping to break down how different models perform.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#e---boosted-trees-for-classification-and-regression",
+    "href": "index.html#e---boosted-trees-for-classification-and-regression",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4E - Boosted Trees for Classification and Regression",
+    "text": "4E - Boosted Trees for Classification and Regression\n\nIn this session we’ll take a look at a family of models called boosted trees. These are a very powerful type of algorithm that perform extremely well on tabular datasets. The session touches on XGBoost, AdaBoost, CatBoost, Histogram-based gradient boosting classifiers and LightGBM.\n\nNext, we take a look at how decision trees, random forests and boosted trees can also be used when you want to predict a numeric value instead of classifying a sample as a member of one group or another.\nWe also touch on some key parts of data preprocessing so we can work with a new dataset of patient length of stay in the final exercise, covering how to OneHot encode categorical variables to make this data usable with machine learning libraries.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#f---neural-networks",
+    "href": "index.html#f---neural-networks",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4F - Neural Networks",
+    "text": "4F - Neural Networks\n\nIn this session we’ll be looking at a subfield of AI that has dominated many of the big advancements in AI over the last few years - Deep Learning - as we introduce Neural Networks.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#g---explainable-ai",
+    "href": "index.html#g---explainable-ai",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4G - Explainable AI",
+    "text": "4G - Explainable AI\n\nIn this part of the Explainable AI session, we explore\n\nwhy explainability is importantant in AI models\nwhat we mean by explainability\nthe difference between correlation and causation\n\n\nNext, we explore\n\nhow we can extract feature importance from a logistic regression model\nhow to interpret the coefficients from logistic regression models\nthe relationship between odds, log odds and probability\n\n\nThen, we move onto\n\nfeature importance for tree-based models with Mean Decrease in Importance (MDI)\nmodel-agnostic feature importance with permutation feature importance (PFI)\n\n\nIn this part of the Explainable AI session, we explore\n\nthe partial dependence plot (PDP)\nthe individual conditional expectation plot (ICE)\nways of enhancing these plots\n\n\nIn this part of the Explainable AI session, we explore\n\nwhat Shapley values are\nhow the shap library allows us to look at global and local feature importance\nhow to create and interpret different shap plots\n\n\nIn the final part of the Explainable AI session, we explore\n\nwhy calculating prediction uncertainty may be useful\nhow to calculate and show prediction uncertainty",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#h---reinforcement-learning",
+    "href": "index.html#h---reinforcement-learning",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4H - Reinforcement Learning",
+    "text": "4H - Reinforcement Learning\nNote that we’d recommend not looking at the slides until after the first time the reinforcement learning game is played manually.\n\nIn this session we take a look at Reinforcement Learning in a session that will be very different to any you’ve experienced thus far.\nApp Link: https://bergam0t.github.io/ReinforcementLearningGame/\nApp Github Repository: https://github.com/Bergam0t/ReinforcementLearningGame",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#i---synthetic-data-using-smote",
+    "href": "index.html#i---synthetic-data-using-smote",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4I - Synthetic Data using SMOTE",
+    "text": "4I - Synthetic Data using SMOTE\n\nIn this session we take a look at synthetic data - how to create our own fake but realistic data when we want to augment an underrepresented class, or just use the data instead of our real data.",
+    "crumbs": [
+      "Preface"
+    ]
+  },
+  {
+    "objectID": "index.html#j---optimising-ml-imputation-feature-engineering-selection-hyperparameters",
+    "href": "index.html#j---optimising-ml-imputation-feature-engineering-selection-hyperparameters",
+    "title": "HSMA - Machine Learning Notebooks",
+    "section": "4J - Optimising ML: Imputation, Feature Engineering & Selection, Hyperparameters",
+    "text": "4J - Optimising ML: Imputation, Feature Engineering & Selection, Hyperparameters\n\nUnfortunately the first 5 minutes or so of the lecture was not recorded\nCovering a range of ways to improve your model’s performance, including:\n\nMissing Data Imputation with SimpleImputer and IterativeImputer\nFeature Selection with SequentialFeatureSelector (forward and backward selection) and SelectFromModel (feature importance selection with model coefficients or mean decrease in impurity)\nFeature Engineering\nDataset Splits (train/test/validation, k-fold)\nDealing with Imbalanced Datasets with model parameters\nHyperparameter tuning with exhaustive gridsearch, randomised gridsearch, and the Optuna framework\n\nAdditional areas in the slides, but not covered in the video, are:\n\nensemble models\nsklearn pipelines\nautomatic model selection with the flaml library\nmodel calibration curves (reliability plots)",
     "crumbs": [
       "Preface"
     ]

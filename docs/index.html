@@ -95,7 +95,7 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item compact">
-    <a class="nav-link" href="https://github.com/hsma-programme/"> <i class="bi bi-github" role="img" aria-label="GitHub">
+    <a class="nav-link" href="https://github.com/hsma-programme/h6_module4_notebooks"> <i class="bi bi-github" role="img" aria-label="GitHub">
 </i> 
 <span class="menu-text"></span></a>
   </li>  
@@ -427,7 +427,19 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a></li>
+  <li><a href="#preface" id="toc-preface" class="nav-link active" data-scroll-target="#preface">Preface</a>
+  <ul class="collapse">
+  <li><a href="#a---an-introduction-to-machine-learning" id="toc-a---an-introduction-to-machine-learning" class="nav-link" data-scroll-target="#a---an-introduction-to-machine-learning">4A - An Introduction to Machine Learning</a></li>
+  <li><a href="#b---logistic-regression" id="toc-b---logistic-regression" class="nav-link" data-scroll-target="#b---logistic-regression">4B - Logistic Regression</a></li>
+  <li><a href="#c---ethics-in-ai" id="toc-c---ethics-in-ai" class="nav-link" data-scroll-target="#c---ethics-in-ai">4C - Ethics in AI</a></li>
+  <li><a href="#d---decision-trees-and-random-forests" id="toc-d---decision-trees-and-random-forests" class="nav-link" data-scroll-target="#d---decision-trees-and-random-forests">4D - Decision Trees and Random Forests</a></li>
+  <li><a href="#e---boosted-trees-for-classification-and-regression" id="toc-e---boosted-trees-for-classification-and-regression" class="nav-link" data-scroll-target="#e---boosted-trees-for-classification-and-regression">4E - Boosted Trees for Classification and Regression</a></li>
+  <li><a href="#f---neural-networks" id="toc-f---neural-networks" class="nav-link" data-scroll-target="#f---neural-networks">4F - Neural Networks</a></li>
+  <li><a href="#g---explainable-ai" id="toc-g---explainable-ai" class="nav-link" data-scroll-target="#g---explainable-ai">4G - Explainable AI</a></li>
+  <li><a href="#h---reinforcement-learning" id="toc-h---reinforcement-learning" class="nav-link" data-scroll-target="#h---reinforcement-learning">4H - Reinforcement Learning</a></li>
+  <li><a href="#i---synthetic-data-using-smote" id="toc-i---synthetic-data-using-smote" class="nav-link" data-scroll-target="#i---synthetic-data-using-smote">4I - Synthetic Data using SMOTE</a></li>
+  <li><a href="#j---optimising-ml-imputation-feature-engineering-selection-hyperparameters" id="toc-j---optimising-ml-imputation-feature-engineering-selection-hyperparameters" class="nav-link" data-scroll-target="#j---optimising-ml-imputation-feature-engineering-selection-hyperparameters">4J - Optimising ML: Imputation, Feature Engineering &amp; Selection, Hyperparameters</a></li>
+  </ul></li>
   </ul>
 </nav>
     </div>
@@ -469,8 +481,133 @@ ul.task-list li input[type="checkbox"] {
 <section id="preface" class="level1 unnumbered">
 <h1 class="unnumbered">Preface</h1><p><img src="resources/cover_image_robot.jpeg" title="HSMA - Machine Learning Notebooks" class="quarto-cover-image img-fluid"></p>
 <p>This is a collection of the notebooks making up module 4 in the HSMA programme.</p>
+<p>Links to the lecture videos and slides can be found below, including for sessions 4A, 4C and 4H, which did not have notebooks.</p>
+<section id="a---an-introduction-to-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="a---an-introduction-to-machine-learning">4A - An Introduction to Machine Learning</h2>
+<p><a href="https://docs.google.com/presentation/d/1MdLRe4-089MsEWttK9OgFvgBX8EqJ6LFCRC72zyz1jI/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we introduce some of the core concepts of AI and Machine Learning, including the concepts of features and labels, overfitting and underfitting and assessing model performance. We also explore some of the different types of machine learning, and practice our understanding of these new concepts by seeing if we can unpick patterns in Dan’s film preferences for “Dan’s Desert Island DVDs”.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/g3RmQombgEA" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="b---logistic-regression" class="level2">
+<h2 class="anchored" data-anchor-id="b---logistic-regression">4B - Logistic Regression</h2>
+<p><a href="https://docs.google.com/presentation/d/1MdLRe4-089MsEWttK9OgFvgBX8EqJ6LFCRC72zyz1jI/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we’ll begin exploring some of the Machine Learning approaches that we can use, starting with Logistic Regression - a way of fusing together traditional linear regression models with a logistic function to create a powerful classifier model. You’ll see how these models can be implemented in Python, and practice using both the Titanic dataset you saw earlier in the course, as well as a new stroke patient dataset.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/0Cw6LK-MO_w" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="c---ethics-in-ai" class="level2">
+<h2 class="anchored" data-anchor-id="c---ethics-in-ai">4C - Ethics in AI</h2>
+<p><a href="https://docs.google.com/presentation/d/16Qwx0cUdGjtqqD7WQ-4kAWHBdJvBFHMch_AwPUwrp1M/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we’ll explore some of the key ethical considerations that are fundamental to any machine learning work, as we explore what can (and will) go wrong.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/fzgtDKCLGHI" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="d---decision-trees-and-random-forests" class="level2">
+<h2 class="anchored" data-anchor-id="d---decision-trees-and-random-forests">4D - Decision Trees and Random Forests</h2>
+<p><a href="https://docs.google.com/presentation/d/1LgVvgLzm4dxCdDCusjWWC_SBrtXhhCPchHXK4oI0kWU/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we’ll begin looking at how decision trees are built and how we can use the sklearn implementation of decision trees on our own datasets.</p>
+<p>We also recap sensitivity (recall), specificity and precision and how to calculate these in sklearn.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/p3Bc2kDtPPs?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Next, we’ll take a look at how we can avoid some of the problems of decision trees by using an ensemble method - random forests.</p>
+<p>We also find out an easier way of calculating sensitivity, specificity and precision in one function, as well as hearing about a new metric called f1 score, and we learn about the confusion matrix, which is a powerful tool for helping to break down how different models perform.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/jqvn_OXbIfg?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="e---boosted-trees-for-classification-and-regression" class="level2">
+<h2 class="anchored" data-anchor-id="e---boosted-trees-for-classification-and-regression">4E - Boosted Trees for Classification and Regression</h2>
+<p><a href="https://docs.google.com/presentation/d/1c89f4ZRU6kQPybWpoO5v_lphAqqnPPfPEAkfVli85iM/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we’ll take a look at a family of models called boosted trees. These are a very powerful type of algorithm that perform extremely well on tabular datasets. The session touches on XGBoost, AdaBoost, CatBoost, Histogram-based gradient boosting classifiers and LightGBM.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/o9WB1ncskzU?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Next, we take a look at how decision trees, random forests and boosted trees can also be used when you want to predict a numeric value instead of classifying a sample as a member of one group or another.</p>
+<p>We also touch on some key parts of data preprocessing so we can work with a new dataset of patient length of stay in the final exercise, covering how to OneHot encode categorical variables to make this data usable with machine learning libraries.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/udlOEtFWYFc?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="f---neural-networks" class="level2">
+<h2 class="anchored" data-anchor-id="f---neural-networks">4F - Neural Networks</h2>
+<p><a href="https://docs.google.com/presentation/d/1SHbIwMyHfBztjp1B27T5f_c99gnrmzjycEwEkJ4ABik/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we’ll be looking at a subfield of AI that has dominated many of the big advancements in AI over the last few years - Deep Learning - as we introduce Neural Networks.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/X0OAjmkuwO8?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="g---explainable-ai" class="level2">
+<h2 class="anchored" data-anchor-id="g---explainable-ai">4G - Explainable AI</h2>
+<p><a href="https://docs.google.com/presentation/d/1fzvwWTaYCVy7oDTZ__fTDhx89XibyUY-Pa4oUXTpeH4/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this part of the Explainable AI session, we explore</p>
+<ul>
+<li>why explainability is importantant in AI models</li>
+<li>what we mean by explainability</li>
+<li>the difference between correlation and causation</li>
+</ul>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/33ZN1orqjKk?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Next, we explore</p>
+<ul>
+<li>how we can extract feature importance from a logistic regression model</li>
+<li>how to interpret the coefficients from logistic regression models</li>
+<li>the relationship between odds, log odds and probability</li>
+</ul>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/B_meJuMbMr4?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>Then, we move onto</p>
+<ul>
+<li>feature importance for tree-based models with Mean Decrease in Importance (MDI)</li>
+<li>model-agnostic feature importance with permutation feature importance (PFI)</li>
+</ul>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/qhVkmPV0QBg?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>In this part of the Explainable AI session, we explore</p>
+<ul>
+<li>the partial dependence plot (PDP)</li>
+<li>the individual conditional expectation plot (ICE)</li>
+<li>ways of enhancing these plots</li>
+</ul>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/iP07GkeyPpA?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>In this part of the Explainable AI session, we explore</p>
+<ul>
+<li>what Shapley values are</li>
+<li>how the shap library allows us to look at global and local feature importance</li>
+<li>how to create and interpret different shap plots</li>
+</ul>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/A4MH0GNfxZA?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+<p>In the final part of the Explainable AI session, we explore</p>
+<ul>
+<li>why calculating prediction uncertainty may be useful</li>
+<li>how to calculate and show prediction uncertainty</li>
+</ul>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/AUnKMEe3ub4?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="h---reinforcement-learning" class="level2">
+<h2 class="anchored" data-anchor-id="h---reinforcement-learning">4H - Reinforcement Learning</h2>
+<p><strong>Note that we’d recommend not looking at the slides until after the first time the reinforcement learning game is played manually.</strong></p>
+<p><a href="https://docs.google.com/presentation/d/1Sok1fWn_y15XLRLQoOq2pKiTX6TG3LDgNkSKhFq6us0/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we take a look at Reinforcement Learning in a session that will be very different to any you’ve experienced thus far.</p>
+<p>App Link: <a href="https://bergam0t.github.io/ReinforcementLearningGame/">https://bergam0t.github.io/ReinforcementLearningGame/</a></p>
+<p>App Github Repository: <a href="https://github.com/Bergam0t/ReinforcementLearningGame">https://github.com/Bergam0t/ReinforcementLearningGame</a></p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/ebFmAiUQkuY?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="i---synthetic-data-using-smote" class="level2">
+<h2 class="anchored" data-anchor-id="i---synthetic-data-using-smote">4I - Synthetic Data using SMOTE</h2>
+<p><a href="https://docs.google.com/presentation/d/1psVyGCwFDAtW0v7QAUaWXseUTV7W-xgRPDgS7rtjpJU/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p>In this session we take a look at synthetic data - how to create our own fake but realistic data when we want to augment an underrepresented class, or just use the data instead of our real data.</p>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/3H0YMXWCxnM?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
+</section>
+<section id="j---optimising-ml-imputation-feature-engineering-selection-hyperparameters" class="level2">
+<h2 class="anchored" data-anchor-id="j---optimising-ml-imputation-feature-engineering-selection-hyperparameters">4J - Optimising ML: Imputation, Feature Engineering &amp; Selection, Hyperparameters</h2>
+<p><a href="https://docs.google.com/presentation/d/1t6eS93gkFfGMlfJ86cVShAZ2vOhmP08TFVp8rcgTGyQ/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&amp;message=Click+here+to+view+the+slides+for+this+session&amp;color=%23FBBC04&amp;style=for-the-badge&amp;logo=googleslides&amp;logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a></p>
+<p><em>Unfortunately the first 5 minutes or so of the lecture was not recorded</em></p>
+<p>Covering a range of ways to improve your model’s performance, including:</p>
+<ul>
+<li><p>Missing Data Imputation with SimpleImputer and IterativeImputer</p></li>
+<li><p>Feature Selection with SequentialFeatureSelector (forward and backward selection) and SelectFromModel (feature importance selection with model coefficients or mean decrease in impurity)</p></li>
+<li><p>Feature Engineering</p></li>
+<li><p>Dataset Splits (train/test/validation, k-fold)</p></li>
+<li><p>Dealing with Imbalanced Datasets with model parameters</p></li>
+<li><p>Hyperparameter tuning with exhaustive gridsearch, randomised gridsearch, and the Optuna framework</p></li>
+</ul>
+<p>Additional areas in the slides, but not covered in the video, are:</p>
+<ul>
+<li>ensemble models</li>
+<li>sklearn pipelines</li>
+<li>automatic model selection with the flaml library</li>
+<li>model calibration curves (reliability plots)</li>
+</ul>
+<div class="quarto-video ratio ratio-16x9"><iframe data-external="1" src="https://www.youtube.com/embed/LYP1H7X-aeg?feature=shared" title="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe></div>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->

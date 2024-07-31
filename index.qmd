@@ -1,3 +1,171 @@
 # Preface {.unnumbered}
 
 This is a collection of the notebooks making up module 4 in the HSMA programme.
+
+Links to the lecture videos and slides can be found below, including for sessions 4A, 4C and 4H, which did not have notebooks.
+
+## 4A - An Introduction to Machine Learning
+
+<a href="https://docs.google.com/presentation/d/1MdLRe4-089MsEWttK9OgFvgBX8EqJ6LFCRC72zyz1jI/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we introduce some of the core concepts of AI and Machine Learning, including the concepts of features and labels, overfitting and underfitting and assessing model performance.  We also explore some of the different types of machine learning, and practice our understanding of these new concepts by seeing if we can unpick patterns in Dan's film preferences for "Dan's Desert Island DVDs".
+
+{{< video https://www.youtube.com/watch?v=g3RmQombgEA >}}
+
+## 4B - Logistic Regression
+
+<a href="https://docs.google.com/presentation/d/1MdLRe4-089MsEWttK9OgFvgBX8EqJ6LFCRC72zyz1jI/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we'll begin exploring some of the Machine Learning approaches that we can use, starting with Logistic Regression - a way of fusing together traditional linear regression models with a logistic function to create a powerful classifier model.  You'll see how these models can be implemented in Python, and practice using both the Titanic dataset you saw earlier in the course, as well as a new stroke patient dataset.
+
+{{< video https://www.youtube.com/watch?v=0Cw6LK-MO_w >}}
+
+## 4C  - Ethics in AI
+
+<a href="https://docs.google.com/presentation/d/16Qwx0cUdGjtqqD7WQ-4kAWHBdJvBFHMch_AwPUwrp1M/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we'll explore some of the key ethical considerations that are fundamental to any machine learning work, as we explore what can (and will) go wrong.
+
+{{< video https://www.youtube.com/watch?v=fzgtDKCLGHI >}}
+
+## 4D - Decision Trees and Random Forests
+
+<a href="https://docs.google.com/presentation/d/1LgVvgLzm4dxCdDCusjWWC_SBrtXhhCPchHXK4oI0kWU/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we'll begin looking at how decision trees are built and how we can use the sklearn implementation of decision trees on our own datasets.
+
+We also recap sensitivity (recall), specificity and precision and how to calculate these in sklearn.
+
+{{< video https://youtu.be/p3Bc2kDtPPs?feature=shared >}}
+
+Next, we'll take a look at how we can avoid some of the problems of decision trees by using an ensemble method - random forests.
+
+We also find out an easier way of calculating sensitivity, specificity and precision in one function, as well as hearing about a new metric called f1 score, and we learn about the confusion matrix, which is a powerful tool for helping to break down how different models perform.
+
+{{< video https://youtu.be/jqvn_OXbIfg?feature=shared >}}
+
+## 4E - Boosted Trees for Classification and Regression
+
+<a href="https://docs.google.com/presentation/d/1c89f4ZRU6kQPybWpoO5v_lphAqqnPPfPEAkfVli85iM/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we'll take a look at a family of models called boosted trees.
+These are a very powerful type of algorithm that perform extremely well on tabular datasets.
+The session touches on XGBoost, AdaBoost, CatBoost, Histogram-based gradient boosting classifiers and LightGBM.
+
+{{< video https://youtu.be/o9WB1ncskzU?feature=shared >}}
+
+Next, we take a look at how decision trees, random forests and boosted trees can also be used when you want to predict a numeric value instead of classifying a sample as a member of one group or another.
+
+We also touch on some key parts of data preprocessing so we can work with a new dataset of patient length of stay in the final exercise, covering how to OneHot encode categorical variables to make this data usable with machine learning libraries.
+
+{{< video https://youtu.be/udlOEtFWYFc?feature=shared >}}
+
+## 4F - Neural Networks
+
+<a href="https://docs.google.com/presentation/d/1SHbIwMyHfBztjp1B27T5f_c99gnrmzjycEwEkJ4ABik/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we'll be looking at a subfield of AI that has dominated many of the big advancements in AI over the last few years - Deep Learning - as we introduce Neural Networks.
+
+{{< video https://youtu.be/X0OAjmkuwO8?feature=shared >}}
+
+## 4G - Explainable AI
+
+<a href="https://docs.google.com/presentation/d/1fzvwWTaYCVy7oDTZ__fTDhx89XibyUY-Pa4oUXTpeH4/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this part of the Explainable AI session, we explore
+
+- why explainability is importantant in AI models
+- what we mean by explainability
+- the difference between correlation and causation
+
+{{< video https://youtu.be/33ZN1orqjKk?feature=shared >}}
+
+Next, we explore
+
+- how we can extract feature importance from a logistic regression model
+- how to interpret the coefficients from logistic regression models
+- the relationship between odds, log odds and probability
+
+{{< video https://youtu.be/B_meJuMbMr4?feature=shared >}}
+
+Then, we move onto
+
+- feature importance for tree-based models with Mean Decrease in Importance (MDI)
+- model-agnostic feature importance with permutation feature importance (PFI)
+
+{{< video https://youtu.be/qhVkmPV0QBg?feature=shared >}}
+
+In this part of the Explainable AI session, we explore
+
+- the partial dependence plot (PDP)
+- the individual conditional expectation plot (ICE)
+- ways of enhancing these plots
+
+{{< video https://youtu.be/iP07GkeyPpA?feature=shared >}}
+
+In this part of the Explainable AI session, we explore
+
+- what Shapley values are
+- how the shap library allows us to look at global and local feature importance
+- how to create and interpret different shap plots
+
+{{< video https://youtu.be/A4MH0GNfxZA?feature=shared >}}
+
+In the final part of the Explainable AI session, we explore
+
+- why calculating prediction uncertainty may be useful
+- how to calculate and show prediction uncertainty
+
+{{< video https://youtu.be/AUnKMEe3ub4?feature=shared >}}
+
+
+## 4H - Reinforcement Learning
+
+**Note that we'd recommend not looking at the slides until after the first time the reinforcement learning game is played manually.**
+
+<a href="https://docs.google.com/presentation/d/1Sok1fWn_y15XLRLQoOq2pKiTX6TG3LDgNkSKhFq6us0/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we take a look at Reinforcement Learning in a session that will be very different to any you've experienced thus far.
+
+App Link: [https://bergam0t.github.io/ReinforcementLearningGame/](https://bergam0t.github.io/ReinforcementLearningGame/)
+
+App Github Repository: [https://github.com/Bergam0t/ReinforcementLearningGame](https://github.com/Bergam0t/ReinforcementLearningGame)
+
+{{< video https://youtu.be/ebFmAiUQkuY?feature=shared >}}
+
+## 4I - Synthetic Data using SMOTE
+
+<a href="https://docs.google.com/presentation/d/1psVyGCwFDAtW0v7QAUaWXseUTV7W-xgRPDgS7rtjpJU/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+In this session we take a look at synthetic data - how to create our own fake but realistic data when we want to augment an underrepresented class, or just use the data instead of our real data.
+
+{{< video https://youtu.be/3H0YMXWCxnM?feature=shared >}}
+
+## 4J - Optimising ML: Imputation, Feature Engineering & Selection, Hyperparameters
+
+<a href="https://docs.google.com/presentation/d/1t6eS93gkFfGMlfJ86cVShAZ2vOhmP08TFVp8rcgTGyQ/edit?usp=sharing"><img src="https://img.shields.io/static/v1?label=Google+Slides&message=Click+here+to+view+the+slides+for+this+session&color=%23FBBC04&style=for-the-badge&logo=googleslides&logoColor=%23FBBC04" alt="Google Slides - Click here to view slides for this session"></a>
+
+*Unfortunately the first 5 minutes or so of the lecture was not recorded*
+
+Covering a range of ways to improve your model's performance, including:
+
+- Missing Data Imputation with SimpleImputer and IterativeImputer
+
+- Feature Selection with SequentialFeatureSelector (forward and backward selection) and SelectFromModel (feature importance selection with model coefficients or mean decrease in impurity)
+
+- Feature Engineering
+
+- Dataset Splits (train/test/validation, k-fold)
+
+- Dealing with Imbalanced Datasets with model parameters
+
+- Hyperparameter tuning with exhaustive gridsearch, randomised gridsearch, and the Optuna framework
+
+Additional areas in the slides, but not covered in the video, are:
+
+- ensemble models
+- sklearn pipelines
+- automatic model selection with the flaml library
+- model calibration curves (reliability plots)
+
+{{< video https://youtu.be/LYP1H7X-aeg?feature=shared >}}
